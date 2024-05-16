@@ -1,0 +1,71 @@
+body {
+    background-color: aliceblue;
+}
+
+p {
+    height: 100vh;
+}
+
+button {
+    width: 20vw;
+    margin-left: 18vw;
+    margin-top : 3vh;
+    border-radius: 4px;
+    border-width: 0;
+    background-color: aquamarine;
+    transition: 500ms;
+}
+
+button:hover {
+    background-color: crimson;
+}
+
+.nested {
+    width: 95vw;
+    height: 65vh;
+    background-color: lightcoral;
+    margin: 3% auto;
+    padding-top: 40%;
+}
+
+.container {
+    width: 60vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: bisque;
+    margin-top: 5%;
+    margin: auto;
+}
+
+.bar {
+    margin-top: 20vh;
+    width: 1vw;
+    height: 10vh;
+    background-color: blue;
+    transition: 200ms;
+}
+
+/* .bar#bar1 {
+    margin-top: 15vh;
+    height: 15vh;
+    background-color: rebeccapurple;
+}
+
+.bar#bar2 {
+    margin-top: 10vh;
+    height: 20vh;
+    background-color: green;
+}
+
+.bar#bar3 {
+    margin-top: 24vh;
+    height: 6vh;
+    background-color: darkgoldenrod;
+}
+
+.bar#bar4 {
+    margin-top: 13vh;
+    height: 17vh;
+} */
