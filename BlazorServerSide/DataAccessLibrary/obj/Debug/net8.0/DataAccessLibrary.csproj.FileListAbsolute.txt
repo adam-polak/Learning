@@ -1,0 +1,6 @@
+C:\Users\adamp\git\Learning\BlazorServerSide\DataAccessLibrary\obj\Debug\net8.0\DataAccessLibrary.csproj.AssemblyReference.cache
+C:\Users\adamp\git\Learning\BlazorServerSide\DataAccessLibrary\obj\Debug\net8.0\DataAccessLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\adamp\git\Learning\BlazorServerSide\DataAccessLibrary\obj\Debug\net8.0\DataAccessLibrary.AssemblyInfoInputs.cache
+C:\Users\adamp\git\Learning\BlazorServerSide\DataAccessLibrary\obj\Debug\net8.0\DataAccessLibrary.AssemblyInfo.cs
+C:\Users\adamp\git\Learning\BlazorServerSide\DataAccessLibrary\obj\Debug\net8.0\DataAccessLibrary.csproj.CoreCompileInputs.cache
+C:\Users\adamp\git\Learning\BlazorServerSide\DataAccessLibrary\obj\Debug\net8.0\DataAccessLibrary.sourcelink.json
