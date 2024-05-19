@@ -4,7 +4,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
 namespace DataAccessLibrary {
-    public class SqlDataAccess
+    public class SqlDataAccess : ISqlDataAccess
     {
         private readonly IConfiguration _config;
 
@@ -23,6 +23,6 @@ namespace DataAccessLibrary {
                 return data.ToList();
             }
         }
-
+        
     }
 }
