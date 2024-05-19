@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yma4US4k86zbLmpegG/Hmo65kXecqY502p75TXpDlc+JXpuckRDCsVwFFmkuAkQ0POEFLOG46nVoDEEvYAjO9A==",
+  "dgSpecHash": "1ebv/AFghaMnq+pvoGPpUl5TrKfpc5RcYI2m3UNSRcmCvZUg6YILjAkMX/pOnXdVVAdQCqqmQv8XxkuKUbOiEw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\adamp\\git\\Learning\\BlazorServerSide\\BlazorServerSide.csproj",
+  "projectFilePath": "/Users/adampolak/git/Learning/BlazorServerSide/BlazorServerSide.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
