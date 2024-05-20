@@ -15,7 +15,7 @@ namespace DataAccessLibrary {
         }
 
         public async Task<List<T>> LoadData<T, U>(string sql, U parameters) {
-            string connectionString = _config.GetConnectionString(ConnectionStringName);
+            string? connectionString = _config.GetConnectionString(ConnectionStringName);
 
             using(IDbConnection connection = new SqlConnection(connectionString))
             {
@@ -23,6 +23,6 @@ namespace DataAccessLibrary {
                 return data.ToList();
             }
         }
-        
+
     }
 }
