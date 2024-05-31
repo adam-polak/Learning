@@ -1,5 +1,8 @@
 @page "/dvdrental"
 @attribute [StreamRendering]
+@using Npgsql;
+@using Dapper;
+@using System.Data
 
 <PageTitle>DVD Rental</PageTitle>
 
@@ -33,21 +36,14 @@ else
 }
 
 @code {
-    private Film[]? films;
+    private List<Film>? films;
+    private IDbConnection connection;
 
     protected override async Task OnInitializedAsync()
     {
-        // Simulate asynchronous loading to demonstrate streaming rendering
-        @* await Task.Delay(500);
-
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray(); *@
+        connection = new NpgsqlConnection("Host=localhost:5432;Username=postgres;Password=password;Database=dvdrental");
+        films = new List<Film>();
+        foreach(Film f in connection.Query<Film>("SELECT title, length FROM film LIMIT 20")) films.Add(f);
     }
 
     private class Film
