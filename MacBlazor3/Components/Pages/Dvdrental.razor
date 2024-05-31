@@ -20,7 +20,7 @@ else
         <thead>
             <tr>
                 <th>Title</th>
-                <th>Length</th>
+                <th>Length (in minutes)</th>
             </tr>
         </thead>
         <tbody>
@@ -37,18 +37,19 @@ else
 
 @code {
     private List<Film>? films;
-    private IDbConnection connection;
+    private IDbConnection? connection;
 
     protected override async Task OnInitializedAsync()
     {
         connection = new NpgsqlConnection("Host=localhost:5432;Username=postgres;Password=password;Database=dvdrental");
         films = new List<Film>();
         foreach(Film f in connection.Query<Film>("SELECT title, length FROM film LIMIT 20")) films.Add(f);
+        await InvokeAsync(StateHasChanged);
     }
 
     private class Film
     {
-        public string title { get; set; }
+        public string? title { get; set; }
         public int length { get; set; }
     }
 }
