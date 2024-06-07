@@ -2,7 +2,7 @@ namespace CSharp1;
 
 public class Driver {
     private bool play = true;
-    private int rounds = 10;
+    private int numRounds = 10;
 
     public void RunGame() {
         while(play) {
@@ -21,30 +21,11 @@ public class Driver {
     }
 
     private void PlayType(int x) {
-        if(x == 1) PlayAdd();
-        else if(x == 2) PlaySubtract();
-        else if(x == 3) PlayMultiply();
-        else if(x == 4) PlayDivide();
-        else if(x == 5) PlayMix();
-    }
+        bool mix = x == 5;
+        int round = 1;
+        while(round < numRounds) {
 
-    private void PlayAdd() {
-    }
-
-    private void PlaySubtract() {
-
-    }
-
-    private void PlayMultiply() {
-
-    }
-
-    private void PlayDivide() {
-
-    }
-
-    private void PlayMix() {
-        
+        }
     }
 
     private int ValidateMenuChoice(string? s) {
