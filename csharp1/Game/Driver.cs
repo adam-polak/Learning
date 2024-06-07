@@ -2,20 +2,49 @@ namespace CSharp1;
 
 public class Driver {
     private bool play = true;
+    private int rounds = 10;
 
     public void RunGame() {
-        int x = 0;
-        bool inv = false;
-        while(x == 0) {
+        while(play) {
+            int x = 0;
+            bool inv = false;
+            while(x == 0) {
+                Console.Clear();
+                PresentOptions();
+                if(inv) InvalidInput();
+                x = ValidateMenuChoice(Console.ReadLine());
+                inv = x == 0;
+            }
             Console.Clear();
-            PresentOptions();
-            if(inv) InvalidInput();
-            x = ValidateMenuChoice(Console.ReadLine());
-            inv = x == 0;
+            if(x == 6) play = false;
         }
-        Console.Clear();
-        if(x == 6) play = false;
-        //else do something
+    }
+
+    private void PlayType(int x) {
+        if(x == 1) PlayAdd();
+        else if(x == 2) PlaySubtract();
+        else if(x == 3) PlayMultiply();
+        else if(x == 4) PlayDivide();
+        else if(x == 5) PlayMix();
+    }
+
+    private void PlayAdd() {
+    }
+
+    private void PlaySubtract() {
+
+    }
+
+    private void PlayMultiply() {
+
+    }
+
+    private void PlayDivide() {
+
+    }
+
+    private void PlayMix() {
+        
     }
 
     private int ValidateMenuChoice(string? s) {
@@ -24,10 +53,6 @@ public class Driver {
         int check = arr[0] - '0';
         if(check > 0 && check <= 6) return check;
         else return InvalidInput();
-    }
-
-    public bool IsGameRunning() {
-        return play;
     }
 
     private int InvalidInput() {
@@ -42,7 +67,7 @@ public class Driver {
     }
 
     private void LBreak() {
-        Console.WriteLine("---------------------------");
+        Console.WriteLine("------------------------------------------------------------------");
     }
 
     private void PresentOptions() {
