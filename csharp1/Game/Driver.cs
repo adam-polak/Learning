@@ -6,10 +6,23 @@ public class Driver {
 
     public void RunGame() {
         PresentOptions();
+        ValidateMenuChoice(Console.ReadLine());
+    }
+
+    private int ValidateMenuChoice(string? s) {
+        if(s == null || s.Length != 1) return InvalidInput();
+        char[] arr = s.ToCharArray();
+        int check = arr[0] - '0';
+        if(check > 0 && check <= 5) return check;
+        else return InvalidInput();
     }
 
     public bool IsGameRunning() {
         return play;
+    }
+
+    private int InvalidInput() {
+        return 0;
     }
 
     private void PresentOptions() {
