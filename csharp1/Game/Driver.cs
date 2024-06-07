@@ -2,7 +2,8 @@ namespace CSharp1;
 
 public class Driver {
     private bool play = true;
-    private int numRounds = 10;
+    private int numRounds = 3;
+    private Random rand = new Random();
 
     public void RunGame() {
         while(play) {
@@ -17,15 +18,73 @@ public class Driver {
             }
             Console.Clear();
             if(x == 6) play = false;
+            else PlayType(x);
         }
     }
 
     private void PlayType(int x) {
         bool mix = x == 5;
-        int round = 1;
+        int round = 0;
+        int target = 0;
         while(round < numRounds) {
-
+            Console.Clear();
+            int[]? check;
+            bool checkAns = false;
+            if(mix) x = rand.Next(1, 5);
+            switch(x) {
+                case 1:
+                    check = ValidRandom.GetRandomToAdd();
+                    Console.WriteLine(check[0] + " + " + check[1] + " = ?");
+                    target = check[0] + check[1];
+                    while(checkAns == false) {
+                        checkAns = ValidateAnswer(target, Console.ReadLine());
+                        if(!checkAns) Console.WriteLine("Wrong answer try again!");
+                    }
+                    break;
+                case 2:
+                    check = ValidRandom.GetRandomToSubtract();
+                    Console.WriteLine(check[0] + " - " + check[1] + " = ?");
+                    target = check[0] - check[1];
+                    while(checkAns == false) {
+                        checkAns = ValidateAnswer(target, Console.ReadLine());
+                        if(!checkAns) Console.WriteLine("Wrong answer try again!");
+                    }
+                    break;
+                case 3:
+                    check = ValidRandom.GetRandomToMultiply();
+                    Console.WriteLine(check[0] + " * " + check[1] + " = ?");
+                    target = check[0] * check[1];
+                    while(checkAns == false) {
+                        checkAns = ValidateAnswer(target, Console.ReadLine());
+                        if(!checkAns) Console.WriteLine("Wrong answer try again!");
+                    }
+                    break;
+                case 4:
+                    check = ValidRandom.GetRandomToDivide();
+                    Console.WriteLine(check[0] + " / " + check[1] + " = ?");
+                    target = check[0] / check[1];
+                    while(checkAns == false) {
+                        checkAns = ValidateAnswer(target, Console.ReadLine());
+                        if(!checkAns) Console.WriteLine("Wrong answer try again!");
+                    }
+                    break;
+            }
+            round++;
         }
+    }
+
+    private bool ValidateAnswer(int target, string? s) {
+        if(s == null || s.Length == 0 || s.Length >= 4) return false;
+        char[] arr = s.ToCharArray();
+        int add = 0;
+        int check = 0;
+        int raise = 0;
+        for(int i = arr.Length - 1; i >= 0; i--) {
+            add = (arr[i] - '0') * (int)Math.Pow(10, raise);
+            check += add;
+            raise++;
+        }
+        return check == target;
     }
 
     private int ValidateMenuChoice(string? s) {
