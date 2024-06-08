@@ -134,7 +134,7 @@ public class Driver {
         if(s == null || s.Length != 1) return InvalidInput();
         char[] arr = s.ToCharArray();
         int check = arr[0] - '0';
-        if(check > 0 && check <= 6) return check;
+        if(check > 0 && check <= 7) return check;
         else return InvalidInput();
     }
 
@@ -145,7 +145,7 @@ public class Driver {
 
     private void InvalidMainMenu() {
         LBreak();
-        Console.WriteLine("Invalid Input: Enter a number 1-6 based on the options presented above");
+        Console.WriteLine("Invalid Input: Enter a number 1-7 based on the options presented above");
         LBreak();
     }
 
@@ -155,7 +155,7 @@ public class Driver {
 
     private void PresentOptions() {
         LBreak();
-        Console.WriteLine("What would you like to do? (Enter a number 1-6)");
+        Console.WriteLine("What would you like to do? (Enter a number 1-7)");
         LBreak();
         Console.WriteLine("1. Play adding mode");
         Console.WriteLine("2. Play subtraction mode");
