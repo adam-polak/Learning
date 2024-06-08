@@ -1,4 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿namespace CalculatorConsole;
+
+using System.Text.RegularExpressions;
+using CalculatorLibrary;
 
 class Program
 {
@@ -58,7 +61,8 @@ class Program
             { 
                try
                {
-                  result = Calculator.DoOperation(cleanNum1, cleanNum2, op);
+                  Calculator c = new Calculator();
+                  result = c.DoOperation(cleanNum1, cleanNum2, op);
                   if (double.IsNaN(result))
                   {
                      Console.WriteLine("This operation will result in a mathematical error.\n");
