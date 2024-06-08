@@ -12,6 +12,7 @@ class Program
         Console.WriteLine("Console Calculator in C#\r");
         Console.WriteLine("------------------------\n");
 
+        Calculator c = new Calculator();
         while (!endApp)
         {
             // Declare variables and set to empty.
@@ -53,27 +54,27 @@ class Program
             string? op = Console.ReadLine();
 
             // Validate input is not null, and matches the pattern
-            if (op == null || ! Regex.IsMatch(op, "[a|s|m|d]"))
+            if (op == null || !Regex.IsMatch(op, "[a|s|m|d]"))
             {
-               Console.WriteLine("Error: Unrecognized input.");
+                Console.WriteLine("Error: Unrecognized input.");
             }
             else
-            { 
-               try
-               {
-                  Calculator c = new Calculator();
-                  result = c.DoOperation(cleanNum1, cleanNum2, op);
-                  if (double.IsNaN(result))
-                  {
-                     Console.WriteLine("This operation will result in a mathematical error.\n");
-                  }
-                  else Console.WriteLine("Your result: {0:0.##}\n", result);
+            {
+                try
+                {
+                    result = c.DoOperation(cleanNum1, cleanNum2, op);
+                    if (double.IsNaN(result))
+                    {
+                        Console.WriteLine("This operation will result in a mathematical error.\n");
+                    }
+                    else Console.WriteLine("Your result: {0:0.##}\n", result);
                 }
                 catch (Exception e)
                 {
-                   Console.WriteLine("Oh no! An exception occurred trying to do the math.\n - Details: " + e.Message);
+                    Console.WriteLine("Oh no! An exception occurred trying to do the math.\n - Details: " + e.Message);
                 }
             }
+
             Console.WriteLine("------------------------\n");
 
             // Wait for the user to respond before closing.
@@ -82,6 +83,8 @@ class Program
 
             Console.WriteLine("\n"); // Friendly linespacing.
         }
+
+        c.Finish();
         return;
     }
 }
