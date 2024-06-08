@@ -6,4 +6,8 @@ public static class GameHistory {
     public static List<Game> GetGames() {
         return Games;
     }
+
+    public static void AddGame(Game g) {
+        Games.Add(g);
+    }
 }

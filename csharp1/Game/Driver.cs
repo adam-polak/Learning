@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace CSharp1;
 
 public class Driver {
@@ -18,8 +20,30 @@ public class Driver {
             }
             Console.Clear();
             if(x == 6) play = false;
-            else PlayType(x);
+            else {
+                GC.Collect();
+                Stopwatch watch = Stopwatch.StartNew();
+                PlayType(x);
+                watch.Stop();
+                long time = watch.ElapsedMilliseconds / 60000;
+                Game g = new Game();
+                g.LengthOfGame = time;
+                g.StartedAt = System.DateTime.Now;
+                g.TypeOfGame = TypeOfGame(x);
+                GameHistory.GetGames().Add(g);
+            }
         }
+    }
+
+    private string TypeOfGame(int x) {
+        switch(x) {
+            case 1: return "Add";
+            case 2: return "Subtract";
+            case 3: return "Multiplication";
+            case 4: return "Division";
+            case 5: return "Mixed";
+        }
+        return "";
     }
 
     private void PlayType(int x) {
