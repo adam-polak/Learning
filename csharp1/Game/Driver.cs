@@ -19,24 +19,31 @@ public class Driver {
                 inv = x == 0;
             }
             Console.Clear();
-            if(x == 6) play = false;
+            if(x == 7) play = false;
+            else if(x == 6) DisplayHistory();
             else {
                 GC.Collect();
-                Stopwatch watch = Stopwatch.StartNew();
-                PlayType(x);
-                watch.Stop();
-                long time = watch.ElapsedMilliseconds / 60000;
+                long time = PlayType(x);
                 Game g = new Game();
-                g.LengthOfGame = time;
-                g.StartedAt = System.DateTime.Now;
                 g.TypeOfGame = TypeOfGame(x);
+                g.LengthOfGame = time;
+                g.Id = Game.NextId++;
                 GameHistory.GetGames().Add(g);
             }
         }
     }
 
     private void DisplayHistory() {
-
+        Console.Clear();
+        LBreak();
+        Console.WriteLine("   Id   |   Game Type   | Seconds   ");
+        LBreak();
+        foreach(Game g in GameHistory.GetGames()) {
+            Console.WriteLine("   " + g.Id + "          " + g.TypeOfGame + "            " + g.LengthOfGame);
+        }
+        if(GameHistory.GetGames().ToArray().Length != 0) LBreak();
+        Console.WriteLine("\n\n\n\nPress enter to escape...");
+        string? wait = Console.ReadLine();
     }
 
     private string TypeOfGame(int x) {
@@ -50,7 +57,7 @@ public class Driver {
         return "";
     }
 
-    private void PlayType(int x) {
+    private long PlayType(int x) {
         bool mix = x == 5;
         int round = 0;
         int target = 0;
@@ -59,8 +66,10 @@ public class Driver {
         Console.WriteLine("Press enter to start....");
         LBreak();
         string? wait = Console.ReadLine();
+        Stopwatch watch = Stopwatch.StartNew();
         while(round < numRounds) {
             Console.Clear();
+            Console.WriteLine("Round " + round + "/" + numRounds);
             int[]? check;
             bool checkAns = false;
             if(mix) x = rand.Next(1, 5);
@@ -104,6 +113,8 @@ public class Driver {
             }
             round++;
         }
+        watch.Stop();
+        return watch.ElapsedMilliseconds / 1000;
     }
 
     private bool ValidateAnswer(int target, string? s) {
@@ -140,7 +151,7 @@ public class Driver {
     }
 
     private void LBreak() {
-        Console.WriteLine("------------------------------------------------------------------");
+        Console.WriteLine("-------------------------------------------------------------");
     }
 
     private void PresentOptions() {
@@ -152,8 +163,9 @@ public class Driver {
         Console.WriteLine("3. Play multiplication mode");
         Console.WriteLine("4. Play division mode");
         Console.WriteLine("5. Play combined mode (utilizes each operator above at random)");
+        Console.WriteLine("6. Display game history");
         LBreak();
-        Console.WriteLine("6. Exit");
+        Console.WriteLine("7. Exit");
         LBreak();
     }
 
