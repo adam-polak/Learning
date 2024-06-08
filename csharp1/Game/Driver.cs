@@ -22,7 +22,6 @@ public class Driver {
             if(x == 7) play = false;
             else if(x == 6) DisplayHistory();
             else {
-                GC.Collect();
                 long time = PlayType(x);
                 Game g = new Game();
                 g.TypeOfGame = TypeOfGame(x);
