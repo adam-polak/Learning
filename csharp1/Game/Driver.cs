@@ -35,6 +35,10 @@ public class Driver {
         }
     }
 
+    private void DisplayHistory() {
+
+    }
+
     private string TypeOfGame(int x) {
         switch(x) {
             case 1: return "Add";
@@ -50,6 +54,11 @@ public class Driver {
         bool mix = x == 5;
         int round = 0;
         int target = 0;
+        LBreak();
+        Console.WriteLine("Perform the calculations that appear on the screen.");
+        Console.WriteLine("Press enter to start....");
+        LBreak();
+        string? wait = Console.ReadLine();
         while(round < numRounds) {
             Console.Clear();
             int[]? check;
