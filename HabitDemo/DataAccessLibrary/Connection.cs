@@ -12,7 +12,7 @@ class Connection {
     private NpgsqlConnection connection;
 
     public Connection() {
-        connection = new NpgsqlConnection(connectionString);
+        connection = new NpgsqlConnection(connectionString + "Include Error Detail=true;");
         connection.Open();
 
         if(!ContainsHabitDatabase()) CreateHabitDatabase();
@@ -23,12 +23,6 @@ class Connection {
 
     public void Close() {
         connection.Close();
-    }
-
-    public void DeleteDatabase() {
-        connection.ChangeDatabase("postgres");
-        NpgsqlCommand cmd = new NpgsqlCommand("DROP DATABASE " + database_name + ";", connection);
-        cmd.ExecuteNonQuery();
     }
 
     public void InsertGlassesOfWater(int x) {
