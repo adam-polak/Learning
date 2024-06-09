@@ -26,8 +26,8 @@ class Connection {
 
     public void InsertGlassesOfWater(int x) {
         List<HabitTableObject> list = (List<HabitTableObject>)connection.Query<HabitTableObject>("SELECT * FROM " + table_name + ";");
-        int id = list.Last() == null ? list.Last().Id + 1 : 1;
-        NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO " + table_name + " (id, water_per_day) VALUES(@i, @x)", connection);
+        int id = list.Count() != 0 ? list.Last().Id + 1 : 1;
+        NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO " + table_name + " (id, water_per_day) VALUES(@i, @x);", connection);
         cmd.Parameters.AddWithValue("i", id);
         cmd.Parameters.AddWithValue("x", x);
         cmd.ExecuteNonQuery();
@@ -39,7 +39,7 @@ class Connection {
     }
 
     private void CreateHabitTable() {
-        NpgsqlCommand cmd = new NpgsqlCommand("CREATE TABLE " + table_name + "(id PRIMARY KEY INTEGER, water_per_day INTEGER)" + ";", connection);
+        NpgsqlCommand cmd = new NpgsqlCommand("CREATE TABLE " + table_name + "(id INTEGER PRIMARY KEY, water_per_day INTEGER)" + ";", connection);
         cmd.ExecuteNonQuery();
     }
 
