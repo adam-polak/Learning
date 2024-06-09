@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using DataAccessLibrary;
+﻿using ConsoleMenu;
 
-Connection c = new Connection();
-c.InsertGlassesOfWater(3);
-c.Close();
+Driver d = new Driver();
+d.Run();
