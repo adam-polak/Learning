@@ -1,5 +1,5 @@
 namespace DataAccessLibrary;
 
 class QueryStringObject {
-    public string? Item { get; set; }
+    public string? Datname { get; set; }
 }
