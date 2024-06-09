@@ -6,7 +6,7 @@ namespace DataAccessLibrary;
 class Connection {
 
     private static string connectionString = "Host=localhost:5432;Username=postgres;Password=password;";
-    private static string habitdb = "habitdb";
+    private static string database_name = "habitdb";
     private static string table_name = "habit_table";
     private static string column_name = "glasses_of_water_per_day";
     private NpgsqlConnection connection;
@@ -16,13 +16,19 @@ class Connection {
         connection.Open();
 
         if(!ContainsHabitDatabase()) CreateHabitDatabase();
-        connection.ChangeDatabase(habitdb);
+        connection.ChangeDatabase(database_name);
 
         if(!ContainsHabitTable()) CreateHabitTable();
     }
 
     public void Close() {
         connection.Close();
+    }
+
+    public void DeleteDatabase() {
+        connection.ChangeDatabase("postgres");
+        NpgsqlCommand cmd = new NpgsqlCommand("DROP DATABASE " + database_name + ";", connection);
+        cmd.ExecuteNonQuery();
     }
 
     public void InsertGlassesOfWater(int x) {
@@ -32,7 +38,7 @@ class Connection {
     }
 
     private void CreateHabitDatabase() {
-        NpgsqlCommand cmd = new NpgsqlCommand("CREATE DATABASE " + habitdb + ";", connection);
+        NpgsqlCommand cmd = new NpgsqlCommand("CREATE DATABASE " + database_name + ";", connection);
         cmd.ExecuteNonQuery();
     }
 
@@ -52,7 +58,7 @@ class Connection {
     private bool ContainsHabitDatabase() {
         List<DatabaseNames> list = (List<DatabaseNames>)connection.Query<DatabaseNames>("SELECT datname FROM pg_database;");
         foreach(DatabaseNames x in list) {
-            if(habitdb.Equals(x.Datname)) return true;
+            if(database_name.Equals(x.Datname)) return true;
         }
         return false;
     }
