@@ -16,6 +16,12 @@ public class Driver {
 
     public void Run() {
         DisplayMainMenu();
+        ClosingOperation();
+    }
+
+    private void ClosingOperation() {
+        Console.Clear();
+        connection.Close();
     }
 
     private void PrintDash() {
