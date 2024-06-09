@@ -30,7 +30,7 @@ class Connection {
     }
 
     private void CreateHabitTable() {
-        NpgsqlCommand cmd = new NpgsqlCommand("CREATE TABLE " + table_name + "(glasses_of_water_per_day TEXT)" + ";", connection);
+        NpgsqlCommand cmd = new NpgsqlCommand("CREATE TABLE " + table_name + "(glasses_of_water_per_day INTEGER)" + ";", connection);
         cmd.ExecuteNonQuery();
     }
 
