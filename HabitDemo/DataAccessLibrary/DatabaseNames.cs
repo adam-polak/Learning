@@ -1,5 +1,5 @@
 namespace DataAccessLibrary;
 
-class QueryStringObject {
+class DatabaseNames {
     public string? Datname { get; set; }
 }

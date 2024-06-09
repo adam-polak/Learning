@@ -8,6 +8,7 @@ class Connection {
     private static string connectionString = "Host=localhost:5432;Username=postgres;Password=password;";
     private static string habitdb = "habitdb";
     private static string table_name = "habit_table";
+    private static string column_name = "glasses_of_water_per_day";
     private NpgsqlConnection connection;
 
     public Connection() {
@@ -24,6 +25,12 @@ class Connection {
         connection.Close();
     }
 
+    public void InsertGlassesOfWater(int x) {
+        NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO " + table_name + " (" + column_name + ") VALUES(@x)", connection);
+        cmd.Parameters.AddWithValue("x", x);
+        cmd.ExecuteNonQuery();
+    }
+
     private void CreateHabitDatabase() {
         NpgsqlCommand cmd = new NpgsqlCommand("CREATE DATABASE " + habitdb + ";", connection);
         cmd.ExecuteNonQuery();
@@ -35,16 +42,16 @@ class Connection {
     }
 
     private bool ContainsHabitTable() {
-        List<QueryStringObject> list = (List<QueryStringObject>)connection.Query<QueryStringObject>("SELECT table_name FROM habitdb.INFORMATION_SCHEMA.TABLES WHERE table_type='BASE TABLE';");
-        foreach(QueryStringObject x in list) {
-            if(table_name.Equals(x.Datname)) return true;
+        List<TableNames> list = (List<TableNames>)connection.Query<TableNames>("SELECT table_name FROM habitdb.INFORMATION_SCHEMA.TABLES WHERE table_type='BASE TABLE';");
+        foreach(TableNames x in list) {
+            if(table_name.Equals(x.Table_Name)) return true;
         }
         return false;
     }
 
     private bool ContainsHabitDatabase() {
-        List<QueryStringObject> list = (List<QueryStringObject>)connection.Query<QueryStringObject>("SELECT datname FROM pg_database;");
-        foreach(QueryStringObject x in list) {
+        List<DatabaseNames> list = (List<DatabaseNames>)connection.Query<DatabaseNames>("SELECT datname FROM pg_database;");
+        foreach(DatabaseNames x in list) {
             if(habitdb.Equals(x.Datname)) return true;
         }
         return false;
