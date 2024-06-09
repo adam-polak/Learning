@@ -8,7 +8,6 @@ class Connection {
     private static string connectionString = "Host=localhost:5432;Username=postgres;Password=password;";
     private static string database_name = "habitdb";
     private static string table_name = "habit_table";
-    private static string column_name = "glasses_of_water_per_day";
     private NpgsqlConnection connection;
 
     public Connection() {
@@ -26,7 +25,10 @@ class Connection {
     }
 
     public void InsertGlassesOfWater(int x) {
-        NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO " + table_name + " (" + column_name + ") VALUES(@x)", connection);
+        List<HabitTableObject> list = (List<HabitTableObject>)connection.Query<HabitTableObject>("SELECT * FROM " + table_name + ";");
+        int id = list.Last() == null ? list.Last().Id + 1 : 1;
+        NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO " + table_name + " (id, water_per_day) VALUES(@i, @x)", connection);
+        cmd.Parameters.AddWithValue("i", id);
         cmd.Parameters.AddWithValue("x", x);
         cmd.ExecuteNonQuery();
     }
@@ -37,7 +39,7 @@ class Connection {
     }
 
     private void CreateHabitTable() {
-        NpgsqlCommand cmd = new NpgsqlCommand("CREATE TABLE " + table_name + "(glasses_of_water_per_day INTEGER)" + ";", connection);
+        NpgsqlCommand cmd = new NpgsqlCommand("CREATE TABLE " + table_name + "(id PRIMARY KEY INTEGER, water_per_day INTEGER)" + ";", connection);
         cmd.ExecuteNonQuery();
     }
 
