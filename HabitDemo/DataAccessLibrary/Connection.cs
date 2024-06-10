@@ -39,6 +39,19 @@ class Connection {
         cmd.ExecuteNonQuery();
     }
 
+    private void UpdateDaysAboveNumber(int n) {
+        NpgsqlCommand cmd = new NpgsqlCommand("UPDATE " + table_name + " SET day=day - 1 WHERE day > @d;", connection);
+        cmd.Parameters.AddWithValue("d", n);
+        cmd.ExecuteNonQuery();
+    }
+
+    public void DeleteDay(int day) {
+        NpgsqlCommand cmd = new NpgsqlCommand("DELETE FROM " + table_name + " WHERE day=@d;", connection);
+        cmd.Parameters.AddWithValue("d", day);
+        cmd.ExecuteNonQuery();
+        if(GetLargestDay() != 0) UpdateDaysAboveNumber(day);
+    }
+
     public int GetLargestDay() {
         List<HabitTableObject> list = (List<HabitTableObject>)connection.Query<HabitTableObject>("SELECT * FROM " + table_name + ";");
         int day = list.Count() != 0 ? list.Last().Day : 0;

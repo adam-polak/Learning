@@ -46,8 +46,20 @@ public class Driver {
         PrintDash();
     }
 
+    private void DisplayDeleteMenu(int largest) {
+        PrintDash();
+        Console.WriteLine("Enter which (#)day you would like to delete (Days [1-" + largest + "]): ");
+        PrintDash();
+    }
+
+    private void NoDaysTracked() {
+        Console.WriteLine("There are no days tracked yet....\n\n\n\n\nPress enter to continue...");
+        string? wait = Console.ReadLine();
+    }
+
     private void RunCommand(string s) {
         int reply = 0;
+        int largestDay = connection.GetLargestDay();
         switch(s) {
             case "Input Habit":
                 Console.Clear();
@@ -65,10 +77,8 @@ public class Driver {
                 break;
             case "Update Habit":
                 Console.Clear();
-                int largestDay = connection.GetLargestDay();
                 if(largestDay == 0) {
-                    Console.WriteLine("There are no days tracked yet....\n\n\n\n\nPress enter to continue...");
-                    string? wait = Console.ReadLine();
+                    NoDaysTracked();
                     break;
                 }
                 DisplayUpdateMenu(largestDay);
@@ -94,6 +104,20 @@ public class Driver {
                 connection.UpdateByDay(day, reply);
                 break;
             case "Delete Habit":
+                Console.Clear();
+                if(largestDay == 0) {
+                    NoDaysTracked();
+                    break;
+                }
+                DisplayDeleteMenu(largestDay);
+                reply = GetReply(Console.ReadLine());
+                while(reply == 0 || reply > largestDay) {
+                    Console.Clear();
+                    DisplayDeleteMenu(largestDay);
+                    InvalidAnswer(largestDay);
+                    reply = GetReply(Console.ReadLine());
+                }
+                connection.DeleteDay(reply);
                 break;
             case "View Habit History":
                 break;
