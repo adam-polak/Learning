@@ -10,7 +10,7 @@ public class Driver {
     
 
     public Driver() {
-        // connection = new Connection();
+        connection = new Connection();
         run = true;
     }
 
@@ -24,9 +24,45 @@ public class Driver {
                 InvalidAnswer(commands.Count() + 1);
                 reply = GetReply(Console.ReadLine());
             }
-            if(reply == commands.Count() + 1) run = false;
+            MainMenuOperators(reply);
         }
         ClosingOperation();
+    }
+
+    private void MainMenuOperators(int x) {
+        if(x == commands.Count() + 1) run = false;
+        else RunCommand(commands.ElementAt(x - 1));
+    }
+
+    private void DisplayInputMenu() {
+        PrintDash();
+        Console.WriteLine("Enter how many glasses of water you would like to record for today: ");
+        PrintDash();
+    }
+
+    private void RunCommand(string s) {
+        switch(s) {
+            case "Input Habit":
+                Console.Clear();
+                DisplayInputMenu();
+                int reply = GetReply(Console.ReadLine());
+                while(reply == 0) {
+                    Console.Clear();
+                    DisplayInputMenu();
+                    PrintDash();
+                    Console.WriteLine("Invalid entry. (Enter an integer)");
+                    PrintDash();
+                    reply = GetReply(Console.ReadLine());
+                }
+                connection.InsertGlassesOfWater(reply);
+                break;
+            case "Update Habit":
+                break;
+            case "Delete Habit":
+                break;
+            case "View Habit History":
+                break;
+        }
     }
 
     private int GetReply(string? r) {
@@ -42,12 +78,12 @@ public class Driver {
     }
 
     private void ClosingOperation() {
-        // Console.Clear();
-        // connection.Close();
+        Console.Clear();
+        connection.Close();
     }
 
     private void PrintDash() {
-        Console.WriteLine("--------------------------------------------------");
+        Console.WriteLine("---------------------------------------------------------------");
     }
 
     private void InvalidAnswer(int end) {
