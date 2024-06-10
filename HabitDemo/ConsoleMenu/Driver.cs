@@ -10,22 +10,50 @@ public class Driver {
     
 
     public Driver() {
-        connection = new Connection();
+        // connection = new Connection();
         run = true;
     }
 
     public void Run() {
-        DisplayMainMenu();
+        while(run) {
+            DisplayMainMenu();
+            int reply = GetReply(Console.ReadLine());
+            while(reply == 0) {
+                Console.Clear();
+                DisplayMainMenu();
+                InvalidAnswer(commands.Count() + 1);
+                reply = GetReply(Console.ReadLine());
+            }
+            if(reply == commands.Count() + 1) run = false;
+        }
         ClosingOperation();
     }
 
+    private int GetReply(string? r) {
+        if(r == null || r.Length == 0) return 0;
+        char[] arr = r.ToCharArray();
+        int ans = 0;
+        int raise = 0;
+        for(int i = arr.Length - 1; i >= 0; i--) {
+            if(arr[i] >= '0' && arr[i] <= '9') ans += (arr[i] - '0') * (int)Math.Pow(10, raise++);
+            else return 0;
+        }
+        return ans;
+    }
+
     private void ClosingOperation() {
-        Console.Clear();
-        connection.Close();
+        // Console.Clear();
+        // connection.Close();
     }
 
     private void PrintDash() {
         Console.WriteLine("--------------------------------------------------");
+    }
+
+    private void InvalidAnswer(int end) {
+        PrintDash();
+        Console.WriteLine("Invalid entry. (Enter a number 1-" + end + ")");
+        PrintDash();
     }
 
     private void DisplayMainMenu() {
