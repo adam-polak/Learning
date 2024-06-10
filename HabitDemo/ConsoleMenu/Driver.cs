@@ -41,12 +41,14 @@ public class Driver {
     }
 
     private void DisplayUpdateMenu(int largest) {
+        DisplayHabitTable();
         PrintDash();
         Console.WriteLine("Enter which (#)day you would like to update (Days [1-" + largest + "]): ");
         PrintDash();
     }
 
     private void DisplayDeleteMenu(int largest) {
+        DisplayHabitTable();
         PrintDash();
         Console.WriteLine("Enter which (#)day you would like to delete (Days [1-" + largest + "]): ");
         PrintDash();
@@ -126,7 +128,7 @@ public class Driver {
                     break;
                 }
                 DisplayHabitTable();
-                Console.WriteLine("\n\n\n\n\nPress enter to continue...");
+                Console.WriteLine("\n\n\n\nPress enter to continue...");
                 string? wait = Console.ReadLine();
                 break;
         }
