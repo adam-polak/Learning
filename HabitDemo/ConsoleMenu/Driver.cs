@@ -120,8 +120,20 @@ public class Driver {
                 connection.DeleteDay(reply);
                 break;
             case "View Habit History":
+                DisplayHabitTable();
+                string? wait = Console.ReadLine();
                 break;
         }
+    }
+
+    private void DisplayHabitTable() {
+        string day_column = " Day ";
+        string water_column = " Glasses of Water ";
+        string separator = "|";
+        int tableHeaderLength = day_column.Length + separator.Length + water_column.Length;
+        PrintDash(tableHeaderLength);
+        Console.WriteLine(day_column + separator + water_column);
+        PrintDash(tableHeaderLength);
     }
 
     private int GetReply(string? r) {
@@ -139,6 +151,14 @@ public class Driver {
     private void ClosingOperation() {
         Console.Clear();
         connection.Close();
+    }
+
+    private void PrintDash(int n) {
+        while(n > 0) {
+            Console.Write("-");
+            n--;
+        }
+        Console.Write("\n");
     }
 
     private void PrintDash() {
