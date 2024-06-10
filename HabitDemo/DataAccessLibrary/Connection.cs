@@ -25,12 +25,24 @@ class Connection {
     }
 
     public void InsertGlassesOfWater(int x) {
-        List<HabitTableObject> list = (List<HabitTableObject>)connection.Query<HabitTableObject>("SELECT * FROM " + table_name + ";");
-        int day = list.Count() != 0 ? list.Last().Day + 1 : 1;
+        int day = GetLargestDay() + 1;
         NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO " + table_name + " (day, water_per_day) VALUES(@d, @x);", connection);
         cmd.Parameters.AddWithValue("d", day);
         cmd.Parameters.AddWithValue("x", x);
         cmd.ExecuteNonQuery();
+    }
+
+    public void UpdateByDay(int day, int amount) {
+        NpgsqlCommand cmd = new NpgsqlCommand("UPDATE " + table_name + " SET water_per_day=@a WHERE day=@d;", connection);
+        cmd.Parameters.AddWithValue("d", day);
+        cmd.Parameters.AddWithValue("a", amount);
+        cmd.ExecuteNonQuery();
+    }
+
+    public int GetLargestDay() {
+        List<HabitTableObject> list = (List<HabitTableObject>)connection.Query<HabitTableObject>("SELECT * FROM " + table_name + ";");
+        int day = list.Count() != 0 ? list.Last().Day : 0;
+        return day;
     }
 
     private void CreateHabitDatabase() {

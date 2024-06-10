@@ -40,6 +40,12 @@ public class Driver {
         PrintDash();
     }
 
+    private void DisplayUpdateMenu() {
+        PrintDash();
+        Console.WriteLine("Enter which (#)day you would like to update: ");
+        PrintDash();
+    }
+
     private void RunCommand(string s) {
         switch(s) {
             case "Input Habit":
@@ -57,6 +63,8 @@ public class Driver {
                 connection.InsertGlassesOfWater(reply);
                 break;
             case "Update Habit":
+                Console.Clear();
+
                 break;
             case "Delete Habit":
                 break;
