@@ -39,6 +39,11 @@ class Connection {
         cmd.ExecuteNonQuery();
     }
 
+    public List<HabitTableObject> GetEntries() {
+        List<HabitTableObject> ans = (List<HabitTableObject>)connection.Query<HabitTableObject>("SELECT * FROM " + table_name + ";");
+        return ans;
+    }
+
     private void UpdateDaysAboveNumber(int n) {
         NpgsqlCommand cmd = new NpgsqlCommand("UPDATE " + table_name + " SET day=day - 1 WHERE day > @d;", connection);
         cmd.Parameters.AddWithValue("d", n);

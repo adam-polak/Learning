@@ -120,7 +120,13 @@ public class Driver {
                 connection.DeleteDay(reply);
                 break;
             case "View Habit History":
+                Console.Clear();
+                if(largestDay == 0) {
+                    NoDaysTracked();
+                    break;
+                }
                 DisplayHabitTable();
+                Console.WriteLine("\n\n\n\n\nPress enter to continue...");
                 string? wait = Console.ReadLine();
                 break;
         }
@@ -134,6 +140,23 @@ public class Driver {
         PrintDash(tableHeaderLength);
         Console.WriteLine(day_column + separator + water_column);
         PrintDash(tableHeaderLength);
+        PrintEntries(connection.GetEntries(), day_column, water_column);
+        PrintDash(tableHeaderLength);
+    }
+
+    private void PrintEntries(List<HabitTableObject> list, string column1, string column2) {
+        foreach(HabitTableObject o in list) Console.WriteLine(FormatEntry(column1.Length, o.Day) + "|" + FormatEntry(column2.Length, o.Water_Per_Day));
+    }
+
+    private string FormatEntry(int columnLength, int data) {
+        string ans = "";
+        int enterAt = (columnLength / 2) + 1;
+        while(columnLength > 0) {
+            if(columnLength != enterAt) ans += " ";
+            else ans += data;
+            columnLength--;
+        }
+        return ans;
     }
 
     private int GetReply(string? r) {
