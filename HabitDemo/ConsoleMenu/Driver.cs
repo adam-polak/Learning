@@ -40,18 +40,19 @@ public class Driver {
         PrintDash();
     }
 
-    private void DisplayUpdateMenu() {
+    private void DisplayUpdateMenu(int largest) {
         PrintDash();
-        Console.WriteLine("Enter which (#)day you would like to update: ");
+        Console.WriteLine("Enter which (#)day you would like to update (Days [1- + " + largest + "]): ");
         PrintDash();
     }
 
     private void RunCommand(string s) {
+        int reply = 0;
         switch(s) {
             case "Input Habit":
                 Console.Clear();
                 DisplayInputMenu();
-                int reply = GetReply(Console.ReadLine());
+                reply = GetReply(Console.ReadLine());
                 while(reply == 0) {
                     Console.Clear();
                     DisplayInputMenu();
@@ -64,7 +65,21 @@ public class Driver {
                 break;
             case "Update Habit":
                 Console.Clear();
-
+                int largestDay = connection.GetLargestDay();
+                if(largestDay == 0) {
+                    Console.WriteLine("There are no days tracked yet....\n\n\n\n\nPress enter to continue...");
+                    string? wait = Console.ReadLine();
+                    break;
+                }
+                DisplayUpdateMenu(largestDay);
+                reply = GetReply(Console.ReadLine());
+                while(reply == 0 || reply > largestDay) {
+                    Console.Clear();
+                    DisplayUpdateMenu(largestDay);
+                    InvalidAnswer(largestDay);
+                    reply = GetReply(Console.ReadLine());
+                }
+                
                 break;
             case "Delete Habit":
                 break;
