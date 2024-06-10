@@ -73,7 +73,7 @@ public class Driver {
                     PrintDash();
                     reply = GetReply(Console.ReadLine());
                 }
-                connection.InsertGlassesOfWater(reply);
+                connection.InsertWaterEntry(reply);
                 break;
             case "Update Habit":
                 Console.Clear();

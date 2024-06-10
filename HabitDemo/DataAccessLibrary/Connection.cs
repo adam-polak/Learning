@@ -24,7 +24,7 @@ class Connection {
         connection.Close();
     }
 
-    public void InsertGlassesOfWater(int x) {
+    public void InsertWaterEntry(int x) {
         int day = GetLargestDay() + 1;
         NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO " + table_name + " (day, water_per_day) VALUES(@d, @x);", connection);
         cmd.Parameters.AddWithValue("d", day);
