@@ -42,7 +42,7 @@ public class Driver {
 
     private void DisplayUpdateMenu(int largest) {
         PrintDash();
-        Console.WriteLine("Enter which (#)day you would like to update (Days [1- + " + largest + "]): ");
+        Console.WriteLine("Enter which (#)day you would like to update (Days [1-" + largest + "]): ");
         PrintDash();
     }
 
@@ -79,7 +79,19 @@ public class Driver {
                     InvalidAnswer(largestDay);
                     reply = GetReply(Console.ReadLine());
                 }
-                
+                int day = reply;
+                Console.Clear();
+                Console.WriteLine("Enter the new amount for day " + day + ": ");
+                reply = GetReply(Console.ReadLine());
+                while(reply == 0) {
+                    Console.Clear();
+                    Console.WriteLine("Enter the new amount for day " + reply + ": ");
+                    PrintDash();
+                    Console.WriteLine("Invalid entry. (Enter an integer)");
+                    PrintDash();
+                    reply = GetReply(Console.ReadLine());
+                }
+                connection.UpdateByDay(day, reply);
                 break;
             case "Delete Habit":
                 break;
