@@ -30,7 +30,7 @@ class Connection {
     private void PopulateTable() {
         int count = 0;
         Random rnd = new Random();
-        while(count < 100) {
+        while(count < 10) {
             InsertWaterEntry(rnd.Next(11));
             count++;
         }
