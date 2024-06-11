@@ -1,10 +1,12 @@
+using System.Runtime.ConstrainedExecution;
+
 namespace DataAccessLibrary;
 
 public class DataController
 {
 
-    private string type;
-    private Table table;
+    public readonly string type;
+    public readonly Table table;
 
 
     public DataController(string type, Table table) 
@@ -15,17 +17,17 @@ public class DataController
 
     public void InsertStack() 
     {
-
+        if(table != Table.Stacks) return;
     }
 
     public void InsertCard()
     {
-
+        if(table != Table.Cards) return;
     }
 
     public void InsertScore()
     {
-        
+        if(table != Table.Scores) return;
     }
 
     public void Update(int id) 
