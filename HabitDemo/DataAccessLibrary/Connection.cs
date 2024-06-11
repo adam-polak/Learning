@@ -17,11 +17,23 @@ class Connection {
         if(!ContainsHabitDatabase()) CreateHabitDatabase();
         connection.ChangeDatabase(database_name);
 
-        if(!ContainsHabitTable()) CreateHabitTable();
+        if(!ContainsHabitTable()) {
+            CreateHabitTable();
+            PopulateTable();
+        }
     }
 
     public void Close() {
         connection.Close();
+    }
+
+    private void PopulateTable() {
+        int count = 0;
+        Random rnd = new Random();
+        while(count < 100) {
+            InsertWaterEntry(rnd.Next(11));
+            count++;
+        }
     }
 
     public void InsertWaterEntry(int x) {
