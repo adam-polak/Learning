@@ -40,7 +40,7 @@ class Connection {
     }
 
     public List<HabitTableObject> GetEntries() {
-        List<HabitTableObject> ans = (List<HabitTableObject>)connection.Query<HabitTableObject>("SELECT * FROM " + table_name + ";");
+        List<HabitTableObject> ans = (List<HabitTableObject>)connection.Query<HabitTableObject>("SELECT * FROM " + table_name + " ORDER BY day;");
         return ans;
     }
 
@@ -58,7 +58,7 @@ class Connection {
     }
 
     public int GetLargestDay() {
-        List<HabitTableObject> list = (List<HabitTableObject>)connection.Query<HabitTableObject>("SELECT * FROM " + table_name + ";");
+        List<HabitTableObject> list = (List<HabitTableObject>)connection.Query<HabitTableObject>("SELECT * FROM " + table_name + " ORDER BY day;");
         int day = list.Count() != 0 ? list.Last().Day : 0;
         return day;
     }
