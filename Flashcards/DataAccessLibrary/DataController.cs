@@ -9,7 +9,7 @@ public class DataController
     public readonly string type;
     public readonly Table table;
     private NpgsqlConnection connection;
-    private static string connectionString = "";
+    private static string connectionString = "Host=localhost:5432;Username=postgres;Password=password;Database=flashcard";
 
 
 
@@ -22,7 +22,7 @@ public class DataController
 
     public void Close()
     {
-
+        connection.Close();
     }
 
     public void InsertStack() 
