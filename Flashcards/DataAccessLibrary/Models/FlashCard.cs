@@ -1,8 +1,7 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace DataAccessLibrary;
 
-class FlashCard {
+public class FlashCard 
+{
     public int Id { get; set; }
     public string? Type { get; set; }
     public string? Front { get; set; }
