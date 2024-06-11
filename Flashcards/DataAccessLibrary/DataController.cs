@@ -1,4 +1,5 @@
-using System.Runtime.ConstrainedExecution;
+using Dapper;
+using Npgsql;
 
 namespace DataAccessLibrary;
 
@@ -7,6 +8,8 @@ public class DataController
 
     public readonly string type;
     public readonly Table table;
+    private NpgsqlConnection connection;
+    private static string connectionString = "";
 
 
 
@@ -14,6 +17,7 @@ public class DataController
     {
         this.type = type;
         this.table = table;
+        connection = new NpgsqlConnection(connectionString);
     }
 
     public void Close()
