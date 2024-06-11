@@ -9,10 +9,16 @@ public class DataController
     public readonly Table table;
 
 
+
     public DataController(string type, Table table) 
     {
         this.type = type;
         this.table = table;
+    }
+
+    public void Close()
+    {
+
     }
 
     public void InsertStack() 
@@ -20,12 +26,12 @@ public class DataController
         if(table != Table.Stacks) return;
     }
 
-    public void InsertCard()
+    public void InsertCard(string front, string back)
     {
         if(table != Table.Cards) return;
     }
 
-    public void InsertScore()
+    public void InsertScore(DateTime date, string score)
     {
         if(table != Table.Scores) return;
     }
@@ -42,7 +48,7 @@ public class DataController
 
     public void Delete(int id) 
     {
-
+        if(table == Table.Stacks) return;
     }
 
     public List<FlashCardStack>? ReadStacks() 
