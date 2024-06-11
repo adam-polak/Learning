@@ -152,6 +152,11 @@ public class Driver {
 
     private string FormatEntry(int columnLength, int data) {
         string ans = "";
+        int raise = 1;
+        while(data >= (int)Math.Pow(10, raise)) {
+            columnLength--;
+            raise++;
+        }
         int enterAt = (columnLength / 2) + 1;
         while(columnLength > 0) {
             if(columnLength != enterAt) ans += " ";
