@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flashcards", "Flashcards.csproj", "{5933DF9C-1095-4C3E-8FC0-4C36463F27E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flashcards", "Flashcards.csproj", "{81F40D93-4DC8-4F6A-B068-B686E9779837}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLibrary", "DataAccessLibrary\DataAccessLibrary.csproj", "{410DB839-818D-49B4-84E7-BE276EF9A688}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +13,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5933DF9C-1095-4C3E-8FC0-4C36463F27E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5933DF9C-1095-4C3E-8FC0-4C36463F27E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5933DF9C-1095-4C3E-8FC0-4C36463F27E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5933DF9C-1095-4C3E-8FC0-4C36463F27E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81F40D93-4DC8-4F6A-B068-B686E9779837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81F40D93-4DC8-4F6A-B068-B686E9779837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81F40D93-4DC8-4F6A-B068-B686E9779837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81F40D93-4DC8-4F6A-B068-B686E9779837}.Release|Any CPU.Build.0 = Release|Any CPU
+		{410DB839-818D-49B4-84E7-BE276EF9A688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{410DB839-818D-49B4-84E7-BE276EF9A688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{410DB839-818D-49B4-84E7-BE276EF9A688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{410DB839-818D-49B4-84E7-BE276EF9A688}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {9E8353BD-D4DB-493E-9C9A-94744B114CE7}
+		SolutionGuid = {5A393AEC-AACF-4609-863C-2D24E037463C}
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,6 @@
 namespace DataAccessLibrary;
 
-public class FlashCardStack 
+public class CardStack
 {
     public string? Name { get; set; }
 }

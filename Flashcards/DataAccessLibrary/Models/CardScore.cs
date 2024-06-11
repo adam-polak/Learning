@@ -1,6 +1,6 @@
 namespace DataAccessLibrary;
 
-public class FlashCardScore 
+public class CardScore
 {
     public string? Type { get; set; }
     public int Id { get; set; }

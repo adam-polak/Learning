@@ -1,3 +1,4 @@
+using System.Data;
 using Dapper;
 using Npgsql;
 
@@ -27,7 +28,8 @@ public class DataController
 
     public void InsertStack() 
     {
-        if(table != Table.Stacks) return;
+        if(table != Table.Stacks || connection.State == ConnectionState.Closed) return;
+        connection.Close();
     }
 
     public void InsertCard(string front, string back)
@@ -55,22 +57,22 @@ public class DataController
         if(table == Table.Stacks) return;
     }
 
-    public List<FlashCardStack>? ReadStacks() 
+    public List<CardStack>? ReadStacks() 
     {
         if(table != Table.Stacks) return null;
-        return new List<FlashCardStack>();
+        return new List<CardStack>();
     }
 
-    public List<FlashCard>? ReadCards() 
+    public List<Card>? ReadCards() 
     {
         if(table != Table.Cards) return null;
-        return new List<FlashCard>();
+        return new List<Card>();
     }
 
-    public List<FlashCardScore> ReadScores() 
+    public List<CardScore>? ReadScores() 
     {
         if(table != Table.Scores) return null;
-        return new List<FlashCardScore>();
+        return new List<CardScore>();
     }
 
 }
