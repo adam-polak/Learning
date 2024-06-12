@@ -3,9 +3,16 @@ namespace DataAccessLibrary;
 public class CardStackController
 {
 
-    public void Insert(string name)
-    {
+    private ValidConnection connection;
 
+    public CardStackController(ValidConnection valid)
+    {
+        connection = valid;
+    }
+
+    public void Insert(string name, ValidConnection valid)
+    {
+        
     }
 
     public void Update()
