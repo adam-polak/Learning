@@ -22,8 +22,8 @@ public static class PopulateTables
             PopulateStackTable();
             cardController = new CardController(connection);
             PopulateCardTable();
-            // cardScoreController = new CardScoreController(connection);
-            // PopulateScoreTable();
+            cardScoreController = new CardScoreController(connection);
+            PopulateScoreTable();
         }
     }
 
