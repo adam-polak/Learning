@@ -18,11 +18,11 @@ public class CardController
         List<Card>? cards = Read(stack_name);
         c.Id = cards != null ? cards.Count() + 1 : 1;
         c.Name = stack_name;
-        NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO " + ValidConnection.TableNames.ElementAt(1) + " (name, id, front, back) VALUES (@n, @i, @f, @b);", connection.GetConnection());
+        NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO card_table (name, id, front, back) VALUES (@n, @i, @f, @b);", connection.GetConnection());
         cmd.Parameters.AddWithValue("n", c.Name);
         cmd.Parameters.AddWithValue("i", c.Id);
-        cmd.Parameters.AddWithValue("f", c.Front == null ? "" : c.Front);
-        cmd.Parameters.AddWithValue("b", c.Back == null ? "" : c.Back);
+        cmd.Parameters.AddWithValue("f", c.Front != null ? c.Front : "front");
+        cmd.Parameters.AddWithValue("b", c.Back != null ? c.Back : "back");
         cmd.ExecuteNonQuery();
     }
 
@@ -39,6 +39,6 @@ public class CardController
     public List<Card>? Read(string stack_name)
     {
         if(!CardStackController.Contains(stack_name, connection)) return null;
-        return (List<Card>)connection.GetConnection().Query<Card>("SELECT * FROM card_table WHERE name=" + stack_name + " ORDER BY id;");
+        return (List<Card>)connection.GetConnection().Query<Card>("SELECT * FROM card_table WHERE name='" + stack_name + "' ORDER BY id;");
     }
 }

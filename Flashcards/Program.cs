@@ -1,6 +1,7 @@
 ﻿using DataAccessLibrary;
+using Npgsql;
 
 Console.WriteLine("Hello, World!");
 
-ValidConnection connection = new ValidConnection();
-PopulateTables populate = new PopulateTables(connection);
+ValidConnection valid = new ValidConnection();
+PopulateTables.Run(valid);

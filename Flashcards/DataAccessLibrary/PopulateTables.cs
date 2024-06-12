@@ -1,19 +1,19 @@
 namespace DataAccessLibrary;
 
-public class PopulateTables
+public static class PopulateTables
 {
-    private ValidConnection connection;
-    private CardStackController? cardStackController;
-    private CardController? cardController;
-    private CardScoreController? cardScoreController;
+    private static ValidConnection connection;
+    private static CardStackController? cardStackController;
+    private static CardController? cardController;
+    private static CardScoreController? cardScoreController;
 
-    private List<string> stack_names = ["Marine Science", "Animal Noises"];
-    private List<string> MarineFrontCard = ["Whales live in the _____", "Beaches have ______", "Turtles lay eggs in the ______"];
-    private List<string> MarineBackCard = ["ocean", "sand", "sand"];
-    private List<string> AnimalFrontCard = ["Cows go ____", "Dogs go ____", "Cats go ____"];
-    private List<string> AnimalBackCard = ["moo", "woof", "meow"];
+    private static List<string> stack_names = ["Marine Science", "Animal Noises"];
+    private static List<string> MarineFrontCard = ["Whales live in the _____", "Beaches have ______", "Turtles lay eggs in the ______"];
+    private static List<string> MarineBackCard = ["ocean", "sand", "sand"];
+    private static List<string> AnimalFrontCard = ["Cows go ____", "Dogs go ____", "Cats go ____"];
+    private static List<string> AnimalBackCard = ["moo", "woof", "meow"];
 
-    public PopulateTables(ValidConnection valid)
+    public static void Run(ValidConnection valid)
     {
         connection = valid;
         if(!CardStackController.Contains(stack_names.ElementAt(0), connection)) 
@@ -27,7 +27,7 @@ public class PopulateTables
         }
     }
 
-    private void PopulateCardTable()
+    private static void PopulateCardTable()
     {
         if(cardController == null) return;
         string stack_name = stack_names.ElementAt(0);
@@ -47,7 +47,7 @@ public class PopulateTables
         }
     }
 
-    private void PopulateScoreTable()
+    private static void PopulateScoreTable()
     {
         if(cardScoreController == null || cardController == null) return;
         CardScore cardScore = new CardScore();
@@ -68,7 +68,7 @@ public class PopulateTables
         }
     }
 
-    private void PopulateStackTable()
+    private static void PopulateStackTable()
     {
         if(cardStackController == null) return;
         foreach(string s in stack_names) cardStackController.Insert(s);
