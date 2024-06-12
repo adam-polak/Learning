@@ -1,3 +1,5 @@
+using Dapper;
+
 namespace DataAccessLibrary;
 
 public class CardStackController
@@ -27,10 +29,12 @@ public class CardStackController
 
     public static List<CardStack> Read(ValidConnection valid)
     {
-        return new List<CardStack>();
+        List<CardStack> ans = (List<CardStack>)valid.GetConnection().Query<CardStack>("SELECT * FROM " + ValidConnection.TableNames.ElementAt(0) + ";");
+        return ans;
     }
 
-    public static bool Contains(string name, ValidConnection valid) {
+    public static bool Contains(string name, ValidConnection valid) 
+    {
         List<CardStack> list = Read(valid);
         foreach(CardStack cardStack in list) if(name.Equals(cardStack.Name)) return true;
         return false;

@@ -8,7 +8,7 @@ public class ValidConnection
 {
 
     private static string datname = "flashcard_db";
-    private static List<string> tableNames = ["stack_table", "card_table", "score_table"];
+    public static readonly List<string> TableNames = ["stack_table", "card_table", "score_table"];
     private static string connectionString = "Host=localhost:5432;Username=postgres;Password=password;";
     private NpgsqlConnection connection;
 
@@ -33,7 +33,7 @@ public class ValidConnection
             connection.ChangeDatabase(datname);
         }
         
-        for(int i = 0; i < tableNames.Count(); i++) if(!ContainsTable(i)) CreateTable(i);
+        for(int i = 0; i < TableNames.Count(); i++) if(!ContainsTable(i)) CreateTable(i);
     }
 
     private bool ContainsFlashCardDatabase() 
@@ -52,18 +52,18 @@ public class ValidConnection
     private bool ContainsTable(int index)
     {
         List<TableName> list = (List<TableName>)connection.Query<TableName>("SELECT table_name FROM " + datname + ".INFORMATION_SCHEMA.TABLES WHERE table_type='BASE TABLE';");
-        foreach(TableName t in list) if(tableNames.ElementAt(index).Equals(t.Table_Name)) return true;
+        foreach(TableName t in list) if(TableNames.ElementAt(index).Equals(t.Table_Name)) return true;
         return false;
     }
 
     private void CreateTable(int index) 
     {
-        string command = "CREATE TABLE " + tableNames.ElementAt(index);
+        string command = "CREATE TABLE " + TableNames.ElementAt(index);
         if(index == 0) command += " (name TEXT PRIMARY KEY);";
         else if(index == 1) command += "(name TEXT, id INTEGER, front TEXT, back TEXT,";
         else command += "(name TEXT, id INTEGER, date TEXT, score TEXT,";
 
-        if(index != 0) command += " FOREIGN KEY (name) REFERENCES " + tableNames.ElementAt(0) + "(name));";
+        if(index != 0) command += " FOREIGN KEY (name) REFERENCES " + TableNames.ElementAt(0) + "(name));";
         NpgsqlCommand cmd = new NpgsqlCommand(command, connection);
         cmd.ExecuteNonQuery();
     }
