@@ -16,11 +16,15 @@ public class PopulateTables
     public PopulateTables(ValidConnection valid)
     {
         connection = valid;
-        cardStackController = new CardStackController(connection);
-        PopulateStackTable();
-        cardController = new CardController(connection);
-        PopulateCardTable();
-        cardScoreController = new CardScoreController(connection);
+        if(!CardStackController.Contains(stack_names.ElementAt(0), connection)) 
+        {
+            cardStackController = new CardStackController(connection);
+            PopulateStackTable();
+            cardController = new CardController(connection);
+            PopulateCardTable();
+            cardScoreController = new CardScoreController(connection);
+            PopulateScoreTable();
+        }
     }
 
     public void PopulateCardTable()
@@ -44,7 +48,23 @@ public class PopulateTables
 
     public void PopulateScoreTable()
     {
-
+        CardScore cardScore = new CardScore();
+        List<Card>? cards;
+        Random rnd = new Random();
+        foreach(string stack_name in stack_names)
+        {
+            cards = cardController.Read(stack_name);
+            if(cards != null) 
+            {
+                for(int i = 0; i < 5; i++)
+                {
+                    cardScore.Date = DateTime.Now.ToShortDateString();
+                    cardScore.Type = stack_name;
+                    cardScore.Score = rnd.Next(cards.Count()) + "/" + cards.Count();
+                    cardScoreController.Insert(cardScore, stack_name);
+                }
+            }
+        }
     }
 
     public void PopulateStackTable()
