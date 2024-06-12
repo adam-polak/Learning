@@ -2,7 +2,7 @@ namespace DataAccessLibrary;
 
 public static class PopulateTables
 {
-    private static ValidConnection connection;
+    private static ValidConnection? connection;
     private static CardStackController? cardStackController;
     private static CardController? cardController;
     private static CardScoreController? cardScoreController;
