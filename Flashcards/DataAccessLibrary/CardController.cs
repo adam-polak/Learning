@@ -2,35 +2,31 @@ namespace DataAccessLibrary;
 
 public class CardController
 {
-    public readonly string? stack_name;
     private ValidConnection connection;
 
-    public CardController(string name, ValidConnection valid) 
+    public CardController(ValidConnection valid) 
     {
-        if(CardStackController.Contains(name, valid)) stack_name = name;
-        else stack_name = null;
-
         connection = valid;
     }
 
-    public void Insert(Card c)
+    public void Insert(Card c, string stack_name)
     {
-        if(stack_name == null) return;
+        if(!CardStackController.Contains(stack_name, connection)) return;
     }
 
-    public void Update(int id)
+    public void Update(int id, string stack_name)
     {
-        if(stack_name == null) return;
+        if(!CardStackController.Contains(stack_name, connection)) return;
     }
 
-    public void Delete(int id)
+    public void Delete(int id, string stack_name)
     {
-        if(stack_name == null) return;
+        if(!CardStackController.Contains(stack_name, connection)) return;
     }
 
-    public List<Card>? Read()
+    public List<Card>? Read(string stack_name)
     {
-        if(stack_name == null) return null;
+        if(!CardStackController.Contains(stack_name, connection)) return null;
         return new List<Card>();
     }
 }

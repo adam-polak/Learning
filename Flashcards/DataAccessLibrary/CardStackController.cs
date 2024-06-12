@@ -12,7 +12,7 @@ public class CardStackController
         connection = valid;
     }
 
-    public void Insert(string name, ValidConnection valid)
+    public void Insert(string name)
     {
 
     }
