@@ -24,9 +24,9 @@ public class CardScoreController
         if(!CardStackController.Contains(stack_name, connection)) return;
     }
 
-    public List<CardScore>? Read(string stack_name)
+    public List<CardScore> Read(string stack_name)
     {
-        if(!CardStackController.Contains(stack_name, connection)) return null;
+        if(!CardStackController.Contains(stack_name, connection)) return new List<CardScore>();
         return new List<CardScore>();
     }
 }
