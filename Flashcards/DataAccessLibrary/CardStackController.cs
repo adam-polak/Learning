@@ -41,8 +41,7 @@ public class CardStackController
 
     public static List<CardStack> Read(ValidConnection valid)
     {
-        List<CardStack> ans = (List<CardStack>)valid.GetConnection().Query<CardStack>("SELECT * FROM " + ValidConnection.TableNames.ElementAt(0) + ";");
-        return ans;
+        return (List<CardStack>)valid.GetConnection().Query<CardStack>("SELECT * FROM " + ValidConnection.TableNames.ElementAt(0) + ";");
     }
 
     public static bool Contains(string name, ValidConnection valid) 

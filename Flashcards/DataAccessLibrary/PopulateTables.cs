@@ -22,8 +22,8 @@ public class PopulateTables
             PopulateStackTable();
             cardController = new CardController(connection);
             PopulateCardTable();
-            cardScoreController = new CardScoreController(connection);
-            PopulateScoreTable();
+            // cardScoreController = new CardScoreController(connection);
+            // PopulateScoreTable();
         }
     }
 
@@ -61,7 +61,6 @@ public class PopulateTables
                 for(int i = 0; i < 5; i++)
                 {
                     cardScore.Date = DateTime.Now.ToShortDateString();
-                    cardScore.Type = stack_name;
                     cardScore.Score = rnd.Next(cards.Count()) + "/" + cards.Count();
                     cardScoreController.Insert(cardScore, stack_name);
                 }
