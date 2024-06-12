@@ -7,8 +7,8 @@ public class CardController
 
     public CardController(string name, ValidConnection valid) 
     {
-        //verify name, if not valid make null
-        stack_name = name;
+        if(CardStackController.Contains(name, valid)) stack_name = name;
+        else stack_name = null;
 
         connection = valid;
     }

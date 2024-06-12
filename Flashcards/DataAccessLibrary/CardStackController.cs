@@ -30,10 +30,9 @@ public class CardStackController
         return new List<CardStack>();
     }
 
-    public static bool Contains(CardStack cardStack, ValidConnection valid) {
-        if(cardStack.Name == null) return false;
+    public static bool Contains(string name, ValidConnection valid) {
         List<CardStack> list = Read(valid);
-        foreach(CardStack c in list) if(cardStack.Name.Equals(c.Name)) return true;
+        foreach(CardStack cardStack in list) if(name.Equals(cardStack.Name)) return true;
         return false;
     }
 }
