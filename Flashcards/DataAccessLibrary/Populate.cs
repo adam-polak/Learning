@@ -3,9 +3,9 @@ namespace DataAccessLibrary;
 public class PopulateTables
 {
     private ValidConnection connection;
-    private CardStackController cardStackController;
-    private CardController cardController;
-    private CardScoreController cardScoreController;
+    private CardStackController? cardStackController;
+    private CardController? cardController;
+    private CardScoreController? cardScoreController;
 
     private List<string> stack_names = ["Marine Science", "Animal Noises"];
     private List<string> MarineFrontCard = ["Whales live in the _____", "Beaches have ______", "Turtles lay eggs in the ______"];
@@ -27,8 +27,9 @@ public class PopulateTables
         }
     }
 
-    public void PopulateCardTable()
+    private void PopulateCardTable()
     {
+        if(cardController == null) return;
         string stack_name = stack_names.ElementAt(0);
         Card c = new Card();
         for(int i = 0; i < MarineFrontCard.Count(); i++) 
@@ -46,8 +47,9 @@ public class PopulateTables
         }
     }
 
-    public void PopulateScoreTable()
+    private void PopulateScoreTable()
     {
+        if(cardScoreController == null || cardController == null) return;
         CardScore cardScore = new CardScore();
         List<Card>? cards;
         Random rnd = new Random();
@@ -67,8 +69,9 @@ public class PopulateTables
         }
     }
 
-    public void PopulateStackTable()
+    private void PopulateStackTable()
     {
+        if(cardStackController == null) return;
         foreach(string s in stack_names) cardStackController.Insert(s);
     }
 }
