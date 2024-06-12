@@ -12,7 +12,7 @@ public class CardStackController
 
     public void Insert(string name, ValidConnection valid)
     {
-        
+
     }
 
     public void Update()
@@ -25,8 +25,15 @@ public class CardStackController
 
     }
 
-    public List<CardStack> Read()
+    public static List<CardStack> Read(ValidConnection valid)
     {
         return new List<CardStack>();
+    }
+
+    public static bool Contains(CardStack cardStack, ValidConnection valid) {
+        if(cardStack.Name == null) return false;
+        List<CardStack> list = Read(valid);
+        foreach(CardStack c in list) if(cardStack.Name.Equals(c.Name)) return true;
+        return false;
     }
 }

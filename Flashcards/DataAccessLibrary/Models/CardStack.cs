@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace DataAccessLibrary;
 
 public class CardStack
