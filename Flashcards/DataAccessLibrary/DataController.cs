@@ -21,6 +21,7 @@ public class DataController
         this.type = type;
         this.table = table;
         connection = new NpgsqlConnection(connectionString);
+        connection.Open();
 
         //if db doesn't exist create db
         if(!ContainsFlashCardDatabase()) CreateFlashCardDatabase();
@@ -118,6 +119,11 @@ public class DataController
         else command += "(name TEXT, id INTEGER, date TEXT, score TEXT,";
 
         if(index != 0) command += " FOREIGN KEY (name) REFERENCES " + tableNames.ElementAt(0) + "(name));";
+        NpgsqlCommand cmd = new NpgsqlCommand(command, connection);
+        cmd.ExecuteNonQuery();
+    }
+
+    private void ExecCommand(string command) {
         NpgsqlCommand cmd = new NpgsqlCommand(command, connection);
         cmd.ExecuteNonQuery();
     }
