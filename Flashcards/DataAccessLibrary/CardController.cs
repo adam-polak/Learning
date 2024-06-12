@@ -12,11 +12,11 @@ public class CardController
         connection = valid;
     }
 
-    public bool Insert(Card c, string stack_name)
+    public void Insert(Card c, string stack_name)
     {
-        if(!CardStackController.Contains(stack_name, connection)) return false;
-        if(c.Front == null || c.Back == null) return false;
-        if(ContainsFront(c.Front, stack_name)) return false;
+        if(!CardStackController.Contains(stack_name, connection)) return;
+        if(c.Front == null || c.Back == null) return;
+        if(ContainsFront(c.Front, stack_name)) return;
         List<Card> cards = Read(stack_name);
         c.Id = cards.Count() + 1;
         c.Name = stack_name;
@@ -26,7 +26,7 @@ public class CardController
         cmd.Parameters.AddWithValue("f", c.Front);
         cmd.Parameters.AddWithValue("b", c.Back);
         cmd.ExecuteNonQuery();
-        return true;
+        return;
     }
 
     private bool ContainsFront(string front, string stack_name)
@@ -36,25 +36,38 @@ public class CardController
         return false;
     }
 
+    private bool ContainsId(int id, string stack_name)
+    {
+        List<Card> cards = Read(stack_name);
+        foreach(Card c in cards) if(id == c.Id) return true;
+        return false;
+    }
+
     public void Update(Card c, string stack_name)
     {
         if(!CardStackController.Contains(stack_name, connection)) return;
-        List<Card> cards = Read(stack_name);
-        bool containsId = false;
-        foreach(Card x in cards) if(c.Id == x.Id) containsId = true;
-        if(!containsId || c.Front == null || c.Back == null) return;
-        NpgsqlCommand cmd = new NpgsqlCommand("UPDATE " + ValidConnection.TableNames.ElementAt(1) + " SET front=@f, back=@b WHERE name=@n AND id=@i;");
+        if(!ContainsId(c.Id, stack_name)) return;
+        if(c.Front == null || c.Back == null) return;
+        NpgsqlCommand cmd = new NpgsqlCommand("UPDATE " + ValidConnection.TableNames.ElementAt(1) + " SET front=@f, back=@b WHERE name=@n AND id=@i;", connection.GetConnection());
         cmd.Parameters.AddWithValue("f", c.Front);
         cmd.Parameters.AddWithValue("b", c.Back);
         cmd.Parameters.AddWithValue("n", stack_name);
         cmd.Parameters.AddWithValue("i", c.Id);
         cmd.ExecuteNonQuery();
-
     }
 
     public void Delete(int id, string stack_name)
     {
         if(!CardStackController.Contains(stack_name, connection)) return;
+        if(!ContainsId(id, stack_name)) return;
+        NpgsqlCommand cmd = new NpgsqlCommand("DELETE FROM " + ValidConnection.TableNames.ElementAt(1) + " WHERE name=@n AND id=@i;", connection.GetConnection());
+        cmd.Parameters.AddWithValue("n", stack_name);
+        cmd.Parameters.AddWithValue("i", id);
+        cmd.ExecuteNonQuery();
+        cmd = new NpgsqlCommand("UPDATE " + ValidConnection.TableNames.ElementAt(1) + " SET id=id - 1 WHERE name=@n AND id>@i;", connection.GetConnection());
+        cmd.Parameters.AddWithValue("n", stack_name);
+        cmd.Parameters.AddWithValue("i", id);
+        cmd.ExecuteNonQuery();
     }
 
     public List<Card> Read(string stack_name)
