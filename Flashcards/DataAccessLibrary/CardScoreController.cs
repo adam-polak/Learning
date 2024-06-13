@@ -28,6 +28,6 @@ public class CardScoreController
     public List<CardScore> Read(string stack_name)
     {
         if(!CardStackController.Contains(stack_name, connection)) return new List<CardScore>();
-        return (List<CardScore>)connection.GetConnection().Query<CardScore>("SELECT * FROM " + ValidConnection.TableNames.ElementAt(2) + " WHERE name=" + stack_name + ";");
+        return (List<CardScore>)connection.GetConnection().Query<CardScore>("SELECT * FROM " + ValidConnection.TableNames.ElementAt(2) + " WHERE name='" + stack_name + "';");
     }
 }
