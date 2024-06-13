@@ -1,0 +1,6 @@
+namespace UILogic;
+
+class PrintInfo
+{
+    
+}
