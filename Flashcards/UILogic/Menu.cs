@@ -17,9 +17,24 @@ class Menu
         { "Practice", ["Pick"] },
         { "View Scores", ["Pick"] }
     };
+    private string curKey;
+    private List<string> curList;
 
-    Menu()
+    public Menu()
     {
-        p = new Panel(MenuTypes.ElementAt(0));
-    }  
+        curKey = MenuTypes.ElementAt(0);
+        p = new Panel(curKey);
+        List<string>? temp = commands.GetValueOrDefault(curKey);
+        curList = temp == null ? new List<string>() : temp;
+    }
+
+    public void ExecCommand(int n)
+    {
+        Console.WriteLine("Executing command " + n);
+    }
+
+    public int[] GetCommandRange()
+    {
+        return [1, curList.Count];
+    }
 }

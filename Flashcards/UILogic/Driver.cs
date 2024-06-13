@@ -1,29 +1,30 @@
-using DataAccessLibrary;
-
 namespace UILogic;
 
 public class Driver
 {
     private bool run;
-    private ValidConnection validConnection;
+    private Menu menu;
 
     public Driver()
     {
         run = true;
-        validConnection = new ValidConnection();
+        menu = new Menu();
     }
 
     public void Run()
     {
         int input;
+        int[] range;
         while(run)
         {
             input = 0;
-            while(input == 0)
+            range = menu.GetCommandRange();
+            while(input < range[0] || input > range[1])
             {
                 input = GetInput(Console.ReadLine());
             }
-            if(input == 1) run = false;
+            if(input == range[range.Length - 1]) run = false;
+            else menu.ExecCommand(input);
         }
     }
 
