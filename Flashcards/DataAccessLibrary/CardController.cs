@@ -15,7 +15,6 @@ public class CardController
     public void Insert(Card c, string stack_name)
     {
         if(!CardStackController.Contains(stack_name, connection)) return;
-        if(c.Front == null || c.Back == null) return;
         if(ContainsFront(c.Front, stack_name)) return;
         List<Card> cards = Read(stack_name);
         c.Id = cards.Count() + 1;
@@ -47,7 +46,6 @@ public class CardController
     {
         if(!CardStackController.Contains(stack_name, connection)) return;
         if(!ContainsId(c.Id, stack_name)) return;
-        if(c.Front == null || c.Back == null) return;
         NpgsqlCommand cmd = new NpgsqlCommand("UPDATE " + ValidConnection.TableNames.ElementAt(1) + " SET front=@f, back=@b WHERE name=@n AND id=@i;", connection.GetConnection());
         cmd.Parameters.AddWithValue("f", c.Front);
         cmd.Parameters.AddWithValue("b", c.Back);
