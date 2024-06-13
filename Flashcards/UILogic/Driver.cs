@@ -1,12 +1,16 @@
+using DataAccessLibrary;
+
 namespace UILogic;
 
 public class Driver
 {
     private bool run;
+    private ValidConnection validConnection;
 
     public Driver()
     {
         run = true;
+        validConnection = new ValidConnection();
     }
 
     public void Run()
