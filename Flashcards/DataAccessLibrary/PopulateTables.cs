@@ -31,27 +31,25 @@ public static class PopulateTables
     {
         if(cardController == null) return;
         string stack_name = stack_names.ElementAt(0);
-        Card c = new Card();
+        Card c;
         for(int i = 0; i < MarineFrontCard.Count(); i++) 
         {
-            c.Front = MarineFrontCard.ElementAt(i);
-            c.Back = MarineBackCard.ElementAt(i);
-            cardController.Insert(c, stack_name);
+            c = new Card() {Name = stack_name, Front = MarineFrontCard.ElementAt(i), Back = MarineBackCard.ElementAt(i)};
+            cardController.Insert(c);
         }
         stack_name = stack_names.ElementAt(1);
         for(int i = 0; i < AnimalFrontCard.Count(); i++)
         {
-            c.Front = AnimalFrontCard.ElementAt(i);
-            c.Back = AnimalBackCard.ElementAt(i);
-            cardController.Insert(c, stack_name);
+            c = new Card() {Name = stack_name, Front = AnimalFrontCard.ElementAt(i), Back = AnimalBackCard.ElementAt(i)};
+            cardController.Insert(c);
         }
     }
 
     private static void PopulateScoreTable()
     {
         if(cardScoreController == null || cardController == null) return;
-        CardScore cardScore = new CardScore();
-        List<Card>? cards;
+        CardScore cardScore;
+        List<Card> cards;
         Random rnd = new Random();
         foreach(string stack_name in stack_names)
         {
@@ -60,9 +58,8 @@ public static class PopulateTables
             {
                 for(int i = 0; i < 5; i++)
                 {
-                    cardScore.Date = DateTime.Now.ToShortDateString();
-                    cardScore.Score = rnd.Next(cards.Count()) + "/" + cards.Count();
-                    cardScoreController.Insert(cardScore, stack_name);
+                    cardScore = new CardScore() {Name = stack_name, Date = DateTime.Now.ToShortDateString(), Score = rnd.Next(cards.Count()) + "/" + cards.Count()};
+                    cardScoreController.Insert(cardScore);
                 }
             }
         }

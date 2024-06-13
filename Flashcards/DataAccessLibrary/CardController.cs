@@ -12,13 +12,12 @@ public class CardController
         connection = valid;
     }
 
-    public void Insert(Card c, string stack_name)
+    public void Insert(Card c)
     {
-        if(!CardStackController.Contains(stack_name, connection)) return;
-        if(ContainsFront(c.Front, stack_name)) return;
-        List<Card> cards = Read(stack_name);
+        if(!CardStackController.Contains(c.Name, connection)) return;
+        if(ContainsFront(c.Front, c.Name)) return;
+        List<Card> cards = Read(c.Name);
         c.Id = cards.Count() + 1;
-        c.Name = stack_name;
         NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO " + ValidConnection.TableNames.ElementAt(1) + " (name, id, front, back) VALUES (@n, @i, @f, @b);", connection.GetConnection());
         cmd.Parameters.AddWithValue("n", c.Name);
         cmd.Parameters.AddWithValue("i", c.Id);
@@ -42,14 +41,14 @@ public class CardController
         return false;
     }
 
-    public void Update(Card c, string stack_name)
+    public void Update(Card c)
     {
-        if(!CardStackController.Contains(stack_name, connection)) return;
-        if(!ContainsId(c.Id, stack_name)) return;
+        if(!CardStackController.Contains(c.Name, connection)) return;
+        if(!ContainsId(c.Id, c.Name)) return;
         NpgsqlCommand cmd = new NpgsqlCommand("UPDATE " + ValidConnection.TableNames.ElementAt(1) + " SET front=@f, back=@b WHERE name=@n AND id=@i;", connection.GetConnection());
         cmd.Parameters.AddWithValue("f", c.Front);
         cmd.Parameters.AddWithValue("b", c.Back);
-        cmd.Parameters.AddWithValue("n", stack_name);
+        cmd.Parameters.AddWithValue("n", c.Name);
         cmd.Parameters.AddWithValue("i", c.Id);
         cmd.ExecuteNonQuery();
     }
