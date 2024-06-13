@@ -27,11 +27,37 @@ class Menu
         p = new Panel(curKey);
         List<string>? temp = commands.GetValueOrDefault(curKey);
         curList = temp == null ? new List<string>() : temp;
-        lastKey = "";
+        lastKey = SetLast();
     }
 
     public void ExecCommand(int n)
     {
+        string command = curList.ElementAt(n);
+        switch(command)
+        {
+            case "Add":
+                break;
+            case "Delete":
+                break;
+            case "View Set":
+                break;
+            case "Practice":
+                break;
+            case "View Scores":
+                break;
+            case "Add Set":
+                break;
+            case "Add Element To Set":
+                break;
+            case "Delete Set":
+                break;
+            case "Delete Element From Set":
+                break;
+            case "Pick":
+                break;
+            case "Back":
+                break;
+        }
         Console.WriteLine("Executing command " + n);
     }
 
@@ -44,5 +70,11 @@ class Menu
     public int[] GetCommandRange()
     {
         return [1, curList.Count];
+    }
+
+    private string SetLast()
+    {
+        if(curKey.Equals(MenuTypes.ElementAt(0))) return "";
+        else return curKey;
     }
 }
