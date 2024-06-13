@@ -23,7 +23,7 @@ public class Driver
             {
                 input = GetInput(Console.ReadLine());
             }
-            if(input == range[range.Length - 1]) run = false;
+            if(input == menu.GetExitVal()) run = false;
             else menu.ExecCommand(input);
         }
     }
