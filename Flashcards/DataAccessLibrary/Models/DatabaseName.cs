@@ -2,5 +2,5 @@ namespace DataAccessLibrary;
 
 class DatabaseName 
 {
-    public string? Datname { get; set; }
+    public required string Datname { get; set; }
 }

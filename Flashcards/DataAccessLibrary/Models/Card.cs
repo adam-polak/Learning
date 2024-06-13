@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace DataAccessLibrary;
 
 public class Card
 {
     public int Id { get; set; }
-    public string? Name { get; set; }
-    public string? Front { get; set; }
-    public string? Back { get; set; }
+    public required string Name { get; set; }
+    public required string Front { get; set; }
+    public required string Back { get; set; }
 }

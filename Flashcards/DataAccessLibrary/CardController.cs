@@ -29,7 +29,7 @@ public class CardController
         return;
     }
 
-    private bool ContainsFront(string front, string stack_name)
+    public bool ContainsFront(string front, string stack_name)
     {
         List<Card> cards = Read(stack_name);
         foreach(Card c in cards) if(front.Equals(c.Front)) return true;
