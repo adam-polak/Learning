@@ -1,44 +1,87 @@
+using Spectre.Console;
+
 namespace UILogic;
 
 public class Driver
 {
-    private bool run;
-    private Menu menu;
+    private static List<string> pickMenuList = ["Pick", "Back"];
+    private static Dictionary<string, List<string>> commands = new Dictionary<string, List<string>>() 
+    {
+        { "Main", ["Add", "Delete", "View Set", "Practice", "View Scores", "Exit"] },
+        { "Add", ["Add Set", "Add Element To Set", "Back"] },
+        { "Add Set", pickMenuList },
+        { "Add Element To Set", pickMenuList },
+        { "Delete", ["Delete Set", "Delete Element From Set", "Back"] },
+        { "Delete Set", pickMenuList },
+        { "Delete Element From Set", pickMenuList },
+        { "View Set", pickMenuList },
+        { "Practice", pickMenuList },
+        { "View Scores", pickMenuList }
+    };
+    private string lastKey;
+    private string curKey;
+    private Panel p;
 
     public Driver()
     {
-        run = true;
-        menu = new Menu();
+        curKey = "Main";
+        lastKey = "";
+        p = new Panel("Menu");
+        p.Header = new PanelHeader(curKey);
+        p.Border = BoxBorder.Double;
+        p.Padding = new Padding(2, 2, 2, 2);
+        p.Expand = true;
+    }
+
+    public string PrintMenu()
+    {
+        return PrintInfo.PrintOptions(curKey, CurList());
     }
 
     public void Run()
     {
-        int input;
-        int[] range;
-        while(run)
+        string command = "";
+        while(!command.Equals("Exit"))
         {
-            input = 0;
-            range = menu.GetCommandRange();
-            while(input < range[0] || input > range[1])
-            {
-                input = GetInput(Console.ReadLine());
+            Console.Clear();
+            command = PrintMenu();
+            if(command.Equals("Back")) {
+                curKey = lastKey;
+                lastKey = curKey.Equals("Main") ? "" : "Main";
+            } else if(command.Equals("Pick")) {
+                Pick();
+            } else {
+                lastKey = curKey;
+                curKey = command;
             }
-            if(input == menu.GetExitVal()) run = false;
-            else menu.ExecCommand(input);
+            Console.WriteLine("Executing command " + command);
         }
     }
 
-    private int GetInput(string? line)
+    private List<string> CurList()
     {
-        if(line == null || line.Length != 1) return 0;
-        char[] arr = line.ToCharArray();
-        int ans = 0;
-        int raise = 0;
-        for(int i = arr.Length - 1; i >= 0; i--)
+        List<string>? temp = commands.GetValueOrDefault(curKey);
+        return temp == null ? new List<string>() : temp;
+    }
+
+    private void Pick()
+    {
+        switch(curKey)
         {
-            if(arr[i] >= '0' && arr[i] <= '9') ans += (arr[i] - '0') * (int)Math.Pow(10, raise++);
-            else return 0;
+            case "Add Set":
+                break;
+            case "Add Element To Set":
+                break;
+            case "Delete Set":
+                break;
+            case "Delete Element From Set":
+                break;
+            case "View Set":
+                break;
+            case "Practice":
+                break;
+            case "View Scores":
+                break;
         }
-        return ans;
     }
 }
