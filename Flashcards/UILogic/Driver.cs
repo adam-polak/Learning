@@ -73,6 +73,7 @@ public class Driver
             {
                 Console.WriteLine("You must enter something...\n\n");
             } else Console.WriteLine("The set already contains \"" + line + "\"...\n\n");
+            line = Console.ReadLine();
         }
         return line;
     }
@@ -94,8 +95,7 @@ public class Driver
                 PrintInfo.PrintStackNames(CardStackController.Read(connection));
                 promptMessage = "\n\n\n\nEnter what the name of the flashcard stack you want to have will be:\n";
                 foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
-                userInput = GetUserInput(Console.ReadLine(), list);
-                CardStackController.Insert(userInput, connection);
+                CardStackController.Insert(GetUserInput(Console.ReadLine(), list), connection);
                 break;
             case "Add Element To Set":
                 foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
