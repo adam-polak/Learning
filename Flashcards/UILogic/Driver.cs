@@ -21,11 +21,13 @@ public class Driver
     };
     private string lastKey;
     private string curKey;
+    private ValidConnection connection;
 
     public Driver()
     {
         curKey = "Main";
         lastKey = "";
+        connection = new ValidConnection();
     }
 
     private string PrintMenu()
@@ -65,13 +67,16 @@ public class Driver
     private void ExecCommand(string command)
     {
         List<string> list = new List<string>();
+        string choice;
         switch(command)
         {
             case "Add Set":
-                foreach(CardStack cardStack in CardStackController.Read(new ValidConnection())) list.Add(cardStack.Name);
-                string choice = PrintMenu("Which set would you like to add to?", list);
                 break;
             case "Add Element To Set":
+                foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
+                choice = PrintMenu("Which set would you like to add to?", list);
+                List<Card> cards = CardController.Read(choice, connection);
+                PrintInfo.PrintCards(cards, choice);
                 break;
             case "Delete Set":
                 break;

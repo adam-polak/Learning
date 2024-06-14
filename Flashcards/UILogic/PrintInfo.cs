@@ -1,3 +1,4 @@
+using DataAccessLibrary;
 using Spectre.Console;
 
 namespace UILogic;
@@ -31,5 +32,22 @@ static class PrintInfo
                 .AddChoices(commands)
         );
         return select == null ? "" : select;
+    }
+
+    public static void PrintCards(List<Card> cards, string type)
+    {
+        if(cards.Count == 0) 
+        {
+            Console.WriteLine("***There are no cards yet***");
+            return;
+        }
+        Table table = new Table();
+        table.Title(type);
+        table.AddColumn("ID");
+        table.AddColumn("Front");
+        table.AddColumn("Back");
+        foreach(Card card in cards) table.AddRow("" + card.Id, card.Front, card.Back);
+        AnsiConsole.Write(table);
+        Console.ReadLine();
     }
 }
