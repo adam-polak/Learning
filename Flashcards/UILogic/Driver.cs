@@ -1,3 +1,4 @@
+using DataAccessLibrary;
 using Spectre.Console;
 
 namespace UILogic;
@@ -9,14 +10,14 @@ public class Driver
     {
         { "Main", ["Add", "Delete", "View Set", "Practice", "View Scores", "Exit"] },
         { "Add", ["Add Set", "Add Element To Set", "Back"] },
-        { "Add Set", pickMenuList },
-        { "Add Element To Set", pickMenuList },
-        { "Delete", ["Delete Set", "Delete Element From Set", "Back"] },
-        { "Delete Set", pickMenuList },
-        { "Delete Element From Set", pickMenuList },
-        { "View Set", pickMenuList },
-        { "Practice", pickMenuList },
-        { "View Scores", pickMenuList }
+        // { "Add Set", pickMenuList },
+        // { "Add Element To Set", pickMenuList },
+        { "Delete", ["Delete Set", "Delete Element From Set", "Back"] }
+        // { "Delete Set", pickMenuList },
+        // { "Delete Element From Set", pickMenuList },
+        // { "View Set", pickMenuList },
+        // { "Practice", pickMenuList },
+        // { "View Scores", pickMenuList }
     };
     private string lastKey;
     private string curKey;
@@ -27,9 +28,14 @@ public class Driver
         lastKey = "";
     }
 
-    public string PrintMenu()
+    private string PrintMenu()
     {
         return PrintInfo.PrintOptions(curKey, CurList());
+    }
+
+    private string PrintMenu(string prompt, List<string> list)
+    {
+        return PrintInfo.PrintOptions(curKey, prompt, list);
     }
 
     public void Run()
@@ -42,12 +48,10 @@ public class Driver
             if(command.Equals("Back")) {
                 curKey = lastKey;
                 lastKey = curKey.Equals("Main") ? "" : "Main";
-            } else if(command.Equals("Pick")) {
-                Pick();
-            } else {
+            } else if(commands.ContainsKey(command)) {
                 lastKey = curKey;
                 curKey = command;
-            }
+            } else ExecCommand(command);
             Console.WriteLine("Executing command " + command);
         }
     }
@@ -58,11 +62,14 @@ public class Driver
         return temp == null ? new List<string>() : temp;
     }
 
-    private void Pick()
+    private void ExecCommand(string command)
     {
-        switch(curKey)
+        List<string> list = new List<string>();
+        switch(command)
         {
             case "Add Set":
+                foreach(CardStack cardStack in CardStackController.Read(new ValidConnection())) list.Add(cardStack.Name);
+                string choice = PrintMenu("Which set would you like to add to?", list);
                 break;
             case "Add Element To Set":
                 break;

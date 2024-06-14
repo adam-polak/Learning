@@ -6,7 +6,12 @@ static class PrintInfo
 {
     public static string PrintOptions(string title, List<string> commands)
     {
-        string prompt = "\nWhat would you like to do?";
+        return PrintOptions(title, "What would you like to do?", commands);
+    }
+
+    public static string PrintOptions(string title, string prompt, List<string> commands)
+    {
+        prompt = "\n" + prompt;
         int length = prompt.Length - 1;
         int center = (length / 2) - (title.Length / 2);
         while(length > 0)

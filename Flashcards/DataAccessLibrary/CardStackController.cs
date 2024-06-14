@@ -3,38 +3,31 @@ using Npgsql;
 
 namespace DataAccessLibrary;
 
-public class CardStackController
+public static class CardStackController
 {
 
-    private ValidConnection connection;
-
-    public CardStackController(ValidConnection valid)
+    public static void Insert(string name, ValidConnection valid)
     {
-        connection = valid;
-    }
-
-    public void Insert(string name)
-    {
-        if(Contains(name, connection)) return;
-        NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO " + ValidConnection.TableNames.ElementAt(0) + " (name) VALUES (@n);", connection.GetConnection());
+        if(Contains(name, valid)) return;
+        NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO " + ValidConnection.TableNames.ElementAt(0) + " (name) VALUES (@n);", valid.GetConnection());
         cmd.Parameters.AddWithValue("n", name);
         cmd.ExecuteNonQuery();
     }
 
-    public void Update(string old, string name)
+    public static void Update(string old, string name, ValidConnection valid)
     {
-        if(!Contains(old, connection)) return;
-        if(Contains(name, connection)) return;
-        NpgsqlCommand cmd = new NpgsqlCommand("UPDATE " + ValidConnection.TableNames.ElementAt(0) + " SET name=@n WHERE name=@o;", connection.GetConnection());
+        if(!Contains(old, valid)) return;
+        if(Contains(name, valid)) return;
+        NpgsqlCommand cmd = new NpgsqlCommand("UPDATE " + ValidConnection.TableNames.ElementAt(0) + " SET name=@n WHERE name=@o;", valid.GetConnection());
         cmd.Parameters.AddWithValue("o", old);
         cmd.Parameters.AddWithValue("n", name);
         cmd.ExecuteNonQuery();
     }
 
-    public void Delete(string name)
+    public static void Delete(string name, ValidConnection valid)
     {
-        if(!Contains(name, connection)) return;
-        NpgsqlCommand cmd = new NpgsqlCommand("DELETE FROM " + ValidConnection.TableNames.ElementAt(0) + " WHERE name=@n;", connection.GetConnection());
+        if(!Contains(name, valid)) return;
+        NpgsqlCommand cmd = new NpgsqlCommand("DELETE FROM " + ValidConnection.TableNames.ElementAt(0) + " WHERE name=@n;", valid.GetConnection());
         cmd.Parameters.AddWithValue("n", name);
         cmd.ExecuteNonQuery();
     }
