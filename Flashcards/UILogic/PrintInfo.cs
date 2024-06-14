@@ -1,6 +1,6 @@
 namespace UILogic;
 
-class PrintInfo
+static class PrintInfo
 {
-    
+
 }
