@@ -93,8 +93,9 @@ public class Driver
         {
             case "Add Set":
                 PrintInfo.PrintStackNames(CardStackController.Read(connection));
-                promptMessage = "\n\n\n\nEnter what the name of the flashcard stack you want to have will be:\n";
                 foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
+                promptMessage = "\n\n\n\nEnter what the name of the flashcard stack you want to have will be:\n";
+                Console.WriteLine(promptMessage);
                 CardStackController.Insert(GetUserInput(Console.ReadLine(), list), connection);
                 break;
             case "Add Element To Set":
