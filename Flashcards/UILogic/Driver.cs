@@ -20,17 +20,11 @@ public class Driver
     };
     private string lastKey;
     private string curKey;
-    private Panel p;
 
     public Driver()
     {
         curKey = "Main";
         lastKey = "";
-        p = new Panel("Menu");
-        p.Header = new PanelHeader(curKey);
-        p.Border = BoxBorder.Double;
-        p.Padding = new Padding(2, 2, 2, 2);
-        p.Expand = true;
     }
 
     public string PrintMenu()
