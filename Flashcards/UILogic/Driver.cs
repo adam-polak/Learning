@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Xml.Serialization;
 using DataAccessLibrary;
 using Spectre.Console;
@@ -83,6 +84,19 @@ public class Driver
         return GetUserInput(line, new List<string>());
     }
 
+    private int GetNumber(string line)
+    {
+        char[] arr = line.ToCharArray();
+        int raise = 0;
+        int ans = 0;
+        for(int i = arr.Length - 1; i >= 0; i--)
+        {
+            if(arr[i] >= '0' && arr[i] <= '9') ans += (arr[i] - '0') * (int)Math.Pow(10, raise++);
+            else return 0;
+        }
+        return ans;
+    }
+
     private void ExecCommand(string command)
     {
         List<string> list = new List<string>();
@@ -92,7 +106,7 @@ public class Driver
         string type;
         string userInput;
         string promptMessage;
-        string exitString = "---Exit---";
+        string exitString = "---Select To Exit---";
         switch(command)
         {
             case "Add Set":
@@ -104,39 +118,82 @@ public class Driver
                 break;
             case "Add Element To Set":
                 foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
+                if(list.Count == 0)
+                {
+                    Console.WriteLine("***There are no flashcard sets***");
+                    Console.WriteLine("\n\n(Press enter to exit)\n");
+                    Console.ReadLine();
+                    break;
+                }
                 type = PrintMenu("Which set would you like to add to?", list);
                 cards = CardController.Read(type, connection);
                 List<string> cardFront = new List<string>();
                 foreach(Card card in cards) cardFront.Add(card.Front);
                 PrintInfo.PrintCards(cards, type);
-                promptMessage = "\n\n\n\nEnter what the front of the flashcard you want to add will have:\n";
+                promptMessage = "\n\nEnter what the front of the flashcard you want to add will have:\n";
                 Console.WriteLine(promptMessage);
                 userInput = GetUserInput(Console.ReadLine(), cardFront);
                 Console.Clear();
                 PrintInfo.PrintCards(cards, type);
-                promptMessage = "\n\n\n\nEnter what the back of \"" + userInput + "\" will have:\n";
+                promptMessage = "\n\nEnter what the back of \"" + userInput + "\" will have:\n";
                 Console.WriteLine(promptMessage);
                 Card add = new Card() { Name = type, Front = userInput, Back = GetUserInput(Console.ReadLine()) };
                 CardController.Insert(add, connection);
                 break;
             case "Delete Set":
                 foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
-                if(list.Count == 0) Console.WriteLine("***There are no flashcard sets***");
-                else 
+                if(list.Count == 0) 
                 {
-                    list.Add(exitString);
-                    userInput = PrintInfo.PrintOptions(command, list);
-                    if(!userInput.Equals(exitString)) 
-                    {
-                        CardController.DeleteAll(userInput, connection);
-                        CardScoreController.DeleteAll(userInput, connection);
-                        CardStackController.Delete(userInput, connection);
-                    }
+                    Console.WriteLine("***There are no flashcard sets***");
+                    Console.WriteLine("\n\n(Press enter to exit)\n");
+                    Console.ReadLine();
+                    break;
+                }
+                list.Add(exitString);
+                userInput = PrintInfo.PrintOptions(command, list);
+                if(!userInput.Equals(exitString)) 
+                {
+                    CardController.DeleteAll(userInput, connection);
+                    CardScoreController.DeleteAll(userInput, connection);
+                    CardStackController.Delete(userInput, connection);
                 }
                 break;
             case "Delete Element From Set":
+                foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
+                if(list.Count == 0)
+                {
+                    Console.WriteLine("***There are no flashcard sets***");
+                    Console.WriteLine("\n\n(Press enter to exit)\n");
+                    Console.ReadLine();
+                    break;
+                }
+                list.Add(exitString);
+                type = PrintInfo.PrintOptions("Which set would you like to delete from?", list);
+                if(!type.Equals(exitString))
+                {
+                    Console.Clear();
+                    PrintInfo.PrintCards(CardController.Read(type, connection), type);
+                    promptMessage = "\n\nEnter the ID of the flashcard you would like to delete:\n";
+                    Console.WriteLine(promptMessage);
+                    int id = GetNumber(GetUserInput(Console.ReadLine()));
+                    while(!CardController.ContainsId(id, type, connection))
+                    {
+                        Console.WriteLine("Enter a valid ID...\n");
+                        id = GetNumber(GetUserInput(Console.ReadLine()));
+                    }
+                    CardController.Delete(id, type, connection);
+                }
                 break;
             case "View Set":
+                foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
+                if(list.Count == 0)
+                {
+                    Console.WriteLine("***There are no flashcard sets***");
+                    Console.WriteLine("\n\n(Press enter to exit)\n");
+                    Console.ReadLine();
+                    break;
+                }
+                type = PrintInfo.PrintOptions("Which set would you like to view?", list);
                 break;
             case "Practice":
                 break;

@@ -28,7 +28,7 @@ public static class CardController
         return false;
     }
 
-    private static bool ContainsId(int id, string stack_name, ValidConnection validConnection)
+    public static bool ContainsId(int id, string stack_name, ValidConnection validConnection)
     {
         List<Card> cards = Read(stack_name, validConnection);
         foreach(Card c in cards) if(id == c.Id) return true;
