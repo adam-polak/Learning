@@ -7,19 +7,11 @@ namespace UILogic;
 
 public class Driver
 {
-    private static List<string> pickMenuList = ["Pick", "Back"];
-    private static Dictionary<string, List<string>> commands = new Dictionary<string, List<string>>() 
+    private static Dictionary<string, List<string>> menus = new Dictionary<string, List<string>>() 
     {
         { "Main", ["Add", "Delete", "View Set", "Practice", "View Scores", "Exit"] },
         { "Add", ["Add Set", "Add Element To Set", "Back"] },
-        // { "Add Set", pickMenuList },
-        // { "Add Element To Set", pickMenuList },
         { "Delete", ["Delete Set", "Delete Element From Set", "Back"] }
-        // { "Delete Set", pickMenuList },
-        // { "Delete Element From Set", pickMenuList },
-        // { "View Set", pickMenuList },
-        // { "Practice", pickMenuList },
-        // { "View Scores", pickMenuList }
     };
     private string lastKey;
     private string curKey;
@@ -52,17 +44,16 @@ public class Driver
             if(command.Equals("Back")) {
                 curKey = lastKey;
                 lastKey = curKey.Equals("Main") ? "" : "Main";
-            } else if(commands.ContainsKey(command)) {
+            } else if(menus.ContainsKey(command)) {
                 lastKey = curKey;
                 curKey = command;
             } else ExecCommand(command);
-            Console.WriteLine("Executing command " + command);
         }
     }
 
     private List<string> CurList()
     {
-        List<string>? temp = commands.GetValueOrDefault(curKey);
+        List<string>? temp = menus.GetValueOrDefault(curKey);
         return temp == null ? new List<string>() : temp;
     }
 
@@ -101,8 +92,6 @@ public class Driver
     {
         List<string> list = new List<string>();
         List<Card> cards;
-        List<CardScore> cardScores;
-        List<CardStack> cardStacks;
         string type;
         string userInput;
         string promptMessage;
@@ -194,6 +183,10 @@ public class Driver
                     break;
                 }
                 type = PrintInfo.PrintOptions("Which set would you like to view?", list);
+                PrintInfo.PrintCards(CardController.Read(type, connection), type);
+                promptMessage = "\n\n(Press enter to exit)\n";
+                Console.WriteLine(promptMessage);
+                Console.ReadLine();
                 break;
             case "Practice":
                 break;
