@@ -34,6 +34,20 @@ static class PrintInfo
         return select == null ? "" : select;
     }
 
+    public static void PrintStackNames(List<CardStack> cardStacks)
+    {
+        if(cardStacks.Count == 0)
+        {
+            Console.WriteLine("***There are no flashcard sets yet***");
+            return;
+        }
+        Table table = new Table();
+        table.Title("Flashcard Sets");
+        table.AddColumn("Name");
+        foreach(CardStack cardStack in cardStacks) table.AddRow(cardStack.Name);
+        AnsiConsole.Write(table);
+    }
+
     public static void PrintCards(List<Card> cards, string type)
     {
         if(cards.Count == 0) 
@@ -48,6 +62,5 @@ static class PrintInfo
         table.AddColumn("Back");
         foreach(Card card in cards) table.AddRow("" + card.Id, card.Front, card.Back);
         AnsiConsole.Write(table);
-        Console.ReadLine();
     }
 }

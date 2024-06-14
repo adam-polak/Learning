@@ -1,3 +1,4 @@
+using System.Xml.Serialization;
 using DataAccessLibrary;
 using Spectre.Console;
 
@@ -64,19 +65,54 @@ public class Driver
         return temp == null ? new List<string>() : temp;
     }
 
+    private string GetUserInput(string? line, List<string> list)
+    {
+        while(line == null || line.Length == 0 || list.Contains(line))
+        {
+            if(line == null || line.Length == 0)
+            {
+                Console.WriteLine("You must enter something...\n\n");
+            } else Console.WriteLine("The set already contains \"" + line + "\"...\n\n");
+        }
+        return line;
+    }
+
+    private string GetUserInput(string? line)
+    {
+        return GetUserInput(line, new List<string>());
+    }
+
     private void ExecCommand(string command)
     {
         List<string> list = new List<string>();
-        string choice;
+        string type;
+        string userInput;
+        string promptMessage;
         switch(command)
         {
             case "Add Set":
+                PrintInfo.PrintStackNames(CardStackController.Read(connection));
+                promptMessage = "\n\n\n\nEnter what the name of the flashcard stack you want to have will be:\n";
+                foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
+                userInput = GetUserInput(Console.ReadLine(), list);
+                CardStackController.Insert(userInput, connection);
                 break;
             case "Add Element To Set":
                 foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
-                choice = PrintMenu("Which set would you like to add to?", list);
-                List<Card> cards = CardController.Read(choice, connection);
-                PrintInfo.PrintCards(cards, choice);
+                type = PrintMenu("Which set would you like to add to?", list);
+                List<Card> cards = CardController.Read(type, connection);
+                List<string> cardFront = new List<string>();
+                foreach(Card card in cards) cardFront.Add(card.Front);
+                PrintInfo.PrintCards(cards, type);
+                promptMessage = "\n\n\n\nEnter what the front of the flashcard you want to add will have:\n";
+                Console.WriteLine(promptMessage);
+                userInput = GetUserInput(Console.ReadLine(), cardFront);
+                Console.Clear();
+                PrintInfo.PrintCards(cards, type);
+                promptMessage = "\n\n\n\nEnter what the back of \"" + userInput + "\" will have:\n";
+                Console.WriteLine(promptMessage);
+                Card add = new Card() { Name = type, Front = userInput, Back = GetUserInput(Console.ReadLine()) };
+                CardController.Insert(add, connection);
                 break;
             case "Delete Set":
                 break;
