@@ -24,4 +24,12 @@ public static class CardScoreController
         if(!CardStackController.Contains(stack_name, validConnection)) return new List<CardScore>();
         return (List<CardScore>)validConnection.GetConnection().Query<CardScore>("SELECT * FROM " + ValidConnection.TableNames.ElementAt(2) + " WHERE name='" + stack_name + "';");
     }
+
+    public static void DeleteAll(string stack_name, ValidConnection validConnection)
+    {
+        if(!CardStackController.Contains(stack_name, validConnection)) return;
+        NpgsqlCommand cmd = new NpgsqlCommand("DELETE FROM " + ValidConnection.TableNames.ElementAt(2) + " WHERE name=@n;", validConnection.GetConnection());
+        cmd.Parameters.AddWithValue("n", stack_name);
+        cmd.ExecuteNonQuery();
+    }
 }

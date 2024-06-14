@@ -86,22 +86,26 @@ public class Driver
     private void ExecCommand(string command)
     {
         List<string> list = new List<string>();
+        List<Card> cards;
+        List<CardScore> cardScores;
+        List<CardStack> cardStacks;
         string type;
         string userInput;
         string promptMessage;
+        string exitString = "---Exit---";
         switch(command)
         {
             case "Add Set":
                 PrintInfo.PrintStackNames(CardStackController.Read(connection));
                 foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
-                promptMessage = "\n\n\n\nEnter what the name of the flashcard stack you want to have will be:\n";
+                promptMessage = "\n\nEnter what the name of the flashcard stack you want to have will be:\n";
                 Console.WriteLine(promptMessage);
                 CardStackController.Insert(GetUserInput(Console.ReadLine(), list), connection);
                 break;
             case "Add Element To Set":
                 foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
                 type = PrintMenu("Which set would you like to add to?", list);
-                List<Card> cards = CardController.Read(type, connection);
+                cards = CardController.Read(type, connection);
                 List<string> cardFront = new List<string>();
                 foreach(Card card in cards) cardFront.Add(card.Front);
                 PrintInfo.PrintCards(cards, type);
@@ -116,6 +120,19 @@ public class Driver
                 CardController.Insert(add, connection);
                 break;
             case "Delete Set":
+                foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
+                if(list.Count == 0) Console.WriteLine("***There are no flashcard sets***");
+                else 
+                {
+                    list.Add(exitString);
+                    userInput = PrintInfo.PrintOptions(command, list);
+                    if(!userInput.Equals(exitString)) 
+                    {
+                        CardController.DeleteAll(userInput, connection);
+                        CardScoreController.DeleteAll(userInput, connection);
+                        CardStackController.Delete(userInput, connection);
+                    }
+                }
                 break;
             case "Delete Element From Set":
                 break;

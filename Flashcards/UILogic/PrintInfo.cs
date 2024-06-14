@@ -38,7 +38,7 @@ static class PrintInfo
     {
         if(cardStacks.Count == 0)
         {
-            Console.WriteLine("***There are no flashcard sets yet***");
+            Console.WriteLine("***There are no flashcard sets***");
             return;
         }
         Table table = new Table();
@@ -52,7 +52,7 @@ static class PrintInfo
     {
         if(cards.Count == 0) 
         {
-            Console.WriteLine("***There are no cards yet***");
+            Console.WriteLine("***There are no cards***");
             return;
         }
         Table table = new Table();
