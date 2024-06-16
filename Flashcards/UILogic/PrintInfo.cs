@@ -48,6 +48,22 @@ static class PrintInfo
         AnsiConsole.Write(table);
     }
 
+    public static void PrintScores(List<CardScore> cardScores, string type)
+    {
+        if(cardScores.Count == 0) 
+        {
+            Console.WriteLine("***There are no cards***");
+            return;
+        }
+        Table table = new Table();
+        table.Title(type);
+        table.AddColumn("ID");
+        table.AddColumn("Date");
+        table.AddColumn("Score");
+        foreach(CardScore cardScore in cardScores) table.AddRow("" + cardScore.Id, cardScore.Date, cardScore.Score);
+        AnsiConsole.Write(table);
+    }
+
     public static void PrintCards(List<Card> cards, string type)
     {
         if(cards.Count == 0) 

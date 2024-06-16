@@ -191,6 +191,19 @@ public class Driver
             case "Practice":
                 break;
             case "View Scores":
+                foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
+                if(list.Count == 0)
+                {
+                    Console.WriteLine("***There are no flashcard sets***");
+                    Console.WriteLine("\n\n(Press enter to exit)\n");
+                    Console.ReadLine();
+                    break;
+                }
+                type = PrintInfo.PrintOptions("Which set would you like to view?", list);
+                PrintInfo.PrintScores(CardScoreController.Read(type, connection), type);
+                promptMessage = "\n\n(Press enter to exit)\n";
+                Console.WriteLine(promptMessage);
+                Console.ReadLine();
                 break;
         }
     }
