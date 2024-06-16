@@ -224,6 +224,8 @@ public class Driver
                 Console.Clear();
                 CardScore cardScore = new CardScore() { Name = type, Date = DateTime.Now.ToShortDateString(), Score = score + "/" + total };
                 Console.WriteLine("You scored: " + cardScore.Score);
+                Console.WriteLine("\n\n(Press enter to exit)\n");
+                Console.ReadLine();
                 CardScoreController.Insert(cardScore, connection);
                 break;
             case "View Scores":
