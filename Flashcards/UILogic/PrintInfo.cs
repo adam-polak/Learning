@@ -79,4 +79,13 @@ static class PrintInfo
         foreach(Card card in cards) table.AddRow("" + card.Id, card.Front, card.Back);
         AnsiConsole.Write(table);
     }
+
+    public static void PrintCard(Card c)
+    {
+        Table table = new Table();
+        table.Title("Card " + c.Id);
+        table.AddColumn("Front");
+        table.AddRow(c.Front);
+        AnsiConsole.Write(table);
+    }
 }

@@ -1,7 +1,4 @@
-using System.Reflection;
-using System.Xml.Serialization;
 using DataAccessLibrary;
-using Spectre.Console;
 
 namespace UILogic;
 
@@ -189,6 +186,45 @@ public class Driver
                 Console.ReadLine();
                 break;
             case "Practice":
+                foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
+                if(list.Count == 0)
+                {
+                    Console.WriteLine("***There are no flashcard sets***");
+                    Console.WriteLine("\n\n(Press enter to exit)\n");
+                    Console.ReadLine();
+                    break;
+                }
+                type = PrintInfo.PrintOptions("Which set would you like to practice?", list);
+                cards = CardController.Read(type, connection);
+                if(cards.Count == 0)
+                {
+                    Console.WriteLine("***There are no cards to practice***");
+                    Console.WriteLine("\n\n(Press enter to exit)\n");
+                    Console.ReadLine();
+                    break;
+                }
+                Console.WriteLine("Enter what the back of the card contains\n\nPress enter to start...");
+                Console.ReadLine();
+                int total = cards.Count;
+                int score = 0;
+                Random rnd = new Random();
+                int index = 0;
+                Card c;
+                string? ans;
+                while(cards.Count > 0)
+                {
+                    Console.Clear();
+                    index = rnd.Next(cards.Count);
+                    c = cards.ElementAt(index);
+                    PrintInfo.PrintCard(c);
+                    ans = Console.ReadLine();
+                    if(ans != null && ans.Equals(c.Back)) score++;
+                    cards.RemoveAt(index);
+                }
+                Console.Clear();
+                CardScore cardScore = new CardScore() { Name = type, Date = DateTime.Now.ToShortDateString(), Score = score + "/" + total };
+                Console.WriteLine("You scored: " + cardScore.Score);
+                CardScoreController.Insert(cardScore, connection);
                 break;
             case "View Scores":
                 foreach(CardStack cardStack in CardStackController.Read(connection)) list.Add(cardStack.Name);
