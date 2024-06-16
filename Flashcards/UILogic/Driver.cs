@@ -208,7 +208,7 @@ public class Driver
                 int total = cards.Count;
                 int score = 0;
                 Random rnd = new Random();
-                int index = 0;
+                int index;
                 Card c;
                 string? ans;
                 while(cards.Count > 0)
