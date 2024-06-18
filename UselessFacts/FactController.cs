@@ -1,12 +1,12 @@
 using Newtonsoft.Json;
 using RestSharp;
-using RestSharp.Serializers;
 using UselessFacts.Models;
 
 namespace UselessFacts;
 
 public class FactController
 {
+
     RestClient client;
 
     public FactController()
@@ -14,16 +14,14 @@ public class FactController
         client = new RestClient("https://uselessfacts.jsph.pl");
     }
 
-    public Fact GetRandomFact()
-    {
-        RestRequest request = new RestRequest("/api/v2/facts/random");
-        return GetFact(request);
-    }
-
     public Fact GetDailyFact()
     {
-        RestRequest request = new RestRequest("/api/v2/facts/today");
-        return GetFact(request);
+        return GetFact(new RestRequest("/api/v2/facts/today"));
+    }
+
+    public Fact GetRandomFact()
+    {
+        return GetFact(new RestRequest("/api/v2/facts/random"));
     }
 
     private Fact GetFact(RestRequest request)
