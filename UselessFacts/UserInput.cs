@@ -1,5 +1,3 @@
-using UselessFacts.Models;
-
 namespace UselessFacts;
 
 public class UserInput
