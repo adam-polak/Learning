@@ -13,7 +13,7 @@ public class UserController : ControllerBase
         return Ok($"Created user {username} with password with length of {password.Length}");
     }
 
-    [HttpPost("login/{username}/{password}")]
+    [HttpPut("login/{username}/{password}")]
     public IActionResult LoginToUser(string username, string password)
     {
         return Ok($"Logged in to user {username}");
