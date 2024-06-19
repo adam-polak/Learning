@@ -21,20 +21,43 @@ public class UserTableAccess
 
     public int LoginToUser(string username, string password)
     {
-        if(!ContainsUsername(username)) throw new Exception("Username does not exist");
-        if(!CorrectPassword(username, password)) throw new Exception("Password is incorrect");
-        return GenerateSessionKey();
+        ValidateLogin(username, password);
+        int key = GenerateSessionKey();
+        NpgsqlCommand cmd = new NpgsqlCommand("UPDATE user_table SET logged_in=@k WHERE username=@u;", connection);
+        cmd.Parameters.AddWithValue("k", key);
+        cmd.Parameters.AddWithValue("u", username);
+        cmd.ExecuteNonQuery();
+        return key;
     }
 
     public bool ContainsUsername(string username)
     {
-        List<User> users = (List<User>)connection.Query<User>($"SELECT * FROM user_table WHERE username={username};");
+        List<User> users = (List<User>)connection.Query<User>($"SELECT * FROM user_table WHERE username='{username}';");
         return users.Count() == 0;
     }
 
     public bool CorrectSessionId(string username, int session_key)
     {
-        List<User> users = (List<User>)connection.Query<User>($"SELECT * FROM user_table WHERE username={username} AND logged_in={session_key};");
+        List<User> users = (List<User>)connection.Query<User>($"SELECT * FROM user_table WHERE username='{username}' AND logged_in='{session_key}';");
+        return users.Count() == 0;
+    }
+
+    private void ValidateCreateUser(string username, string password)
+    {
+        if(!ContainsUsername(username)) throw new Exception("Username already exists");
+        if(!ValidatePassword(password)) throw new Exception("Password needs to be atleast 6 characters");
+    }
+
+    private void ValidateLogin(string username, string password)
+    {
+        if(!ContainsUsername(username)) throw new Exception("Username does not exist");
+        if(!CorrectPassword(username, password)) throw new Exception("Password is incorrect");
+        if(IsOtherUserLoggedIn(username)) throw new Exception("Other user is logged in");
+    }
+
+    private bool IsOtherUserLoggedIn(string username)
+    {
+        List<User> users = (List<User>)connection.Query<User>($"SELECT * FROM user_table WHERE username='{username}' AND logged_in='false';");
         return users.Count() == 0;
     }
 
