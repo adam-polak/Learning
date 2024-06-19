@@ -11,6 +11,7 @@ public class UserTableAccess
     public UserTableAccess()
     {
         connection = new NpgsqlConnection(DataAccess.ConnectionString);
+        connection.Open();
     }
 
     public void CreateUser(string username, string password)
@@ -33,22 +34,22 @@ public class UserTableAccess
     public void LogoutOfUser(string username, int session_key)
     {
         ValidateLogout(username, session_key);
-        NpgsqlCommand cmd = new NpgsqlCommand("UPDATE user_table SET logged_in='false' WHERE username=@u; AND logged_in=@k;", connection);
+        NpgsqlCommand cmd = new NpgsqlCommand("UPDATE user_table SET logged_in='false' WHERE username=@u AND logged_in=@k;", connection);
         cmd.Parameters.AddWithValue("u", username);
-        cmd.Parameters.AddWithValue("k", session_key);
+        cmd.Parameters.AddWithValue("k", "" + session_key);
         cmd.ExecuteNonQuery();
     }
 
     public bool ContainsUsername(string username)
     {
         List<User> users = (List<User>)connection.Query<User>($"SELECT * FROM user_table WHERE username='{username}';");
-        return users.Count() == 0;
+        return users.Count() != 0;
     }
 
     public bool CorrectSessionId(string username, int session_key)
     {
         List<User> users = (List<User>)connection.Query<User>($"SELECT * FROM user_table WHERE username='{username}' AND logged_in='{session_key}';");
-        return users.Count() == 0;
+        return users.Count() != 0;
     }
 
     private void ValidateCreateUser(string username, string password)
@@ -78,7 +79,9 @@ public class UserTableAccess
 
     private bool CorrectPassword(string username, string password)
     {
-        return false;
+        List<User> users = (List<User>)connection.Query<User>($"SELECT * FROM user_table WHERE username='{username}' AND password='{password}';");
+        User? user = users.ElementAt(0);
+        return user != null && username.Equals(user.username) && password.Equals(user.password);
     }
 
     private bool ValidatePassword(string password)

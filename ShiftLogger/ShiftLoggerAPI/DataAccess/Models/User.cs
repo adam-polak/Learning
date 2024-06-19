@@ -2,7 +2,7 @@ namespace ShiftLoggerAPI.DataAccess;
 
 class User
 {
-    string? username { get; set; }
-    string? password { get; set; }
-    string? loggedin { get; set; }
+    public string? username { get; set; }
+    public string? password { get; set; }
+    public string? loggedin { get; set; }
 }
