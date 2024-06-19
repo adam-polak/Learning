@@ -16,8 +16,11 @@ public class UserTableAccess
 
     public void CreateUser(string username, string password)
     {
-        if(!ContainsUsername(username)) throw new Exception("Username already exists");
-        if(!ValidatePassword(password)) throw new Exception("Password needs to be atleast 6 characters");
+        ValidateCreateUser(username, password);
+        NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO user_table (username, password, logged_in) VALUES (@u, @p, 'false');", connection);
+        cmd.Parameters.AddWithValue("u", username);
+        cmd.Parameters.AddWithValue("p", password);
+        cmd.ExecuteNonQuery();
     }
 
     public int LoginToUser(string username, string password)
@@ -60,7 +63,7 @@ public class UserTableAccess
 
     private void ValidateCreateUser(string username, string password)
     {
-        if(!ContainsUsername(username)) throw new Exception("Username already exists");
+        if(ContainsUsername(username)) throw new Exception("Username already exists");
         if(!ValidatePassword(password)) throw new Exception("Password needs to be atleast 6 characters");
     }
 

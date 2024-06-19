@@ -18,7 +18,12 @@ public class UserController : ControllerBase
     [HttpPost("createuser/{username}/{password}")]
     public IActionResult CreateUser(string username, string password)
     {
-        return Ok($"Created user {username} with password with length of {password.Length}");
+        try {
+            userTable.CreateUser(username, password);
+            return Ok($"Created user: {username}");
+        } catch(Exception e) {
+            return BadRequest(e.Message);
+        }
     }
 
     [HttpPut("login/{username}/{password}")]
@@ -26,7 +31,7 @@ public class UserController : ControllerBase
     {
         try {
             int key = userTable.LoginToUser(username, password);
-            return Ok($"Logged in to user {username} the key is {key}");
+            return Ok($"Logged in to user: {username} \n\tthe session key is: {key}");
         } catch(Exception e) {
             return BadRequest(e.Message);
         }
