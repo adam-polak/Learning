@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ShiftLoggerAPI.DataAccess;
 
 namespace ShiftLoggerAPI.Controller;
 
@@ -7,16 +8,33 @@ namespace ShiftLoggerAPI.Controller;
 public class ShiftController : ControllerBase
 {
 
-    [HttpPost("startshift/{username}")]
-    public IActionResult StartShift(string username)
+    ShiftTableAccess shiftTable;
+
+    public ShiftController()
     {
-        return Ok($"Started shift for {username}");
+        shiftTable = new ShiftTableAccess();
     }
 
-    [HttpPut("endshift/{username}")]
-    public IActionResult EndShift(string username)
+    [HttpPost("start_shift/{username}/{key}")]
+    public IActionResult StartShift(string username, int key)
     {
-        return Ok($"Ended shift for {username}");
+        try {
+            DateTime dateTime = shiftTable.StartShift();
+            return Ok($"Started shift for {username} at {dateTime.ToShortDateString()}");
+        } catch(Exception e) {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPut("end_shift/{username}/{key}")]
+    public IActionResult EndShift(string username, int key)
+    {
+        try {
+            DateTime dateTime = shiftTable.EndShift();
+            return Ok($"Ended shift for {username} at {dateTime.ToShortTimeString()}");
+        } catch(Exception e) {
+            return BadRequest(e.Message);
+        }
     }
 
 }

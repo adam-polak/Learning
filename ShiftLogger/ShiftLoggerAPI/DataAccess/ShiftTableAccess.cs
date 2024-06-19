@@ -11,6 +11,17 @@ public class ShiftTableAccess
     public ShiftTableAccess()
     {
         connection = new NpgsqlConnection(DataAccess.ConnectionString);
+        connection.Open();
+    }
+
+    public DateTime StartShift()
+    {
+        return DateTime.Now;
+    }
+
+    public DateTime EndShift()
+    {
+        return DateTime.Now;
     }
 
 }

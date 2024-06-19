@@ -2,7 +2,7 @@ namespace ShiftLoggerAPI.DataAccess;
 
 class Shift
 {
-    string? username { get; set; }
-    string? start_time { get; set;}
-    string? end_time { get; set; }
+    public string? username { get; set; }
+    public string? start_time { get; set;}
+    public string? end_time { get; set; }
 }
