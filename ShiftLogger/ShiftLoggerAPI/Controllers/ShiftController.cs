@@ -19,8 +19,8 @@ public class ShiftController : ControllerBase
     public IActionResult StartShift(string username, int key)
     {
         try {
-            DateTime dateTime = shiftTable.StartShift();
-            return Ok($"Started shift for {username} at {dateTime.ToShortDateString()}");
+            string dateTime = shiftTable.StartShift(username);
+            return Ok($"Started shift for {username} at {dateTime}");
         } catch(Exception e) {
             return BadRequest(e.Message);
         }
@@ -30,8 +30,8 @@ public class ShiftController : ControllerBase
     public IActionResult EndShift(string username, int key)
     {
         try {
-            DateTime dateTime = shiftTable.EndShift();
-            return Ok($"Ended shift for {username} at {dateTime.ToShortTimeString()}");
+            string dateTime = shiftTable.EndShift(username);
+            return Ok($"Ended shift for {username} at {dateTime}");
         } catch(Exception e) {
             return BadRequest(e.Message);
         }

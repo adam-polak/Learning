@@ -84,7 +84,7 @@ public class UserTableAccess
     {
         List<User> users = (List<User>)connection.Query<User>($"SELECT * FROM user_table WHERE username='{username}' AND password='{password}';");
         User? user = users.ElementAt(0);
-        return user != null && username.Equals(user.username) && password.Equals(user.password);
+        return user != null && username.Equals(user.Username) && password.Equals(user.Password);
     }
 
     private bool ValidatePassword(string password)
