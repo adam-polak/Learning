@@ -24,4 +24,9 @@ public class ShiftTableAccess
         return DateTime.Now;
     }
 
+    private string GetLastStartOfShift()
+    {
+        return "";
+    }
+
 }
