@@ -7,15 +7,18 @@ public class ShiftTableAccess
 {
     
     NpgsqlConnection connection;
+    UserTableAccess userTable;
 
     public ShiftTableAccess()
     {
+        userTable = new UserTableAccess();
         connection = new NpgsqlConnection(DataAccess.ConnectionString);
         connection.Open();
     }
 
-    public string StartShift(string username)
+    public string StartShift(string username, int key)
     {
+        userTable.ValidateUsernameAndSessionKey(username, key);
         if(!IsLastEnded(username)) throw new Exception("Last shift hasn't ended yet");
         Shift? last = GetLast(username);
         int id = last == null ? 1 : last.Id + 1;
@@ -29,8 +32,9 @@ public class ShiftTableAccess
         return cur.Start_Time;
     }
 
-    public string EndShift(string username)
+    public string EndShift(string username, int key)
     {
+        userTable.ValidateUsernameAndSessionKey(username, key);
         Shift? last = GetLast(username);
         if(last == null) throw new Exception("Shift hasn't been started yet");
         if(!"ongoing".Equals(last.End_Time)) throw new Exception("Shift has already ended");
