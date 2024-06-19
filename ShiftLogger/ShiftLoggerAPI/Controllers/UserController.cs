@@ -43,10 +43,18 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("loggedin/{username}/{session_key}")]
-    public IActionResult IsLoggedIn(string username, string session_key)
+    [HttpGet("loggedin/{username}/{key}")]
+    public IActionResult IsLoggedIn(string username, int key)
     {
-        return Ok($"Logged in as {username} with {session_key}");
+        string result;
+        try {
+            userTable.ValidateUsernameAndSessionKey(username, key);
+            result = $"Logged in as {username} with session key: {key}";
+        } catch(Exception e) {
+            if(e.Message.Equals("Incorrect session key")) result = $"User: {username} is not logged in";
+            else return BadRequest(e.Message);
+        }
+        return Ok(result);
     }
 
 }

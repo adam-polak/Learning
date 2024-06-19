@@ -33,7 +33,7 @@ public class UserTableAccess
 
     public void LogoutOfUser(string username, int session_key)
     {
-        ValidateLogout(username, session_key);
+        ValidateUsernameAndSessionKey(username, session_key);
         NpgsqlCommand cmd = new NpgsqlCommand("UPDATE user_table SET logged_in='false' WHERE username=@u AND logged_in=@k;", connection);
         cmd.Parameters.AddWithValue("u", username);
         cmd.Parameters.AddWithValue("k", "" + session_key);
@@ -46,7 +46,13 @@ public class UserTableAccess
         return users.Count() != 0;
     }
 
-    public bool CorrectSessionId(string username, int session_key)
+    public void ValidateUsernameAndSessionKey(string username, int session_key)
+    {
+        if(!ContainsUsername(username)) throw new Exception("Username does not exist");
+        if(!CorrectSessionId(username, session_key)) throw new Exception("Incorrect session key");
+    }
+
+    private bool CorrectSessionId(string username, int session_key)
     {
         List<User> users = (List<User>)connection.Query<User>($"SELECT * FROM user_table WHERE username='{username}' AND logged_in='{session_key}';");
         return users.Count() != 0;
@@ -56,12 +62,6 @@ public class UserTableAccess
     {
         if(!ContainsUsername(username)) throw new Exception("Username already exists");
         if(!ValidatePassword(password)) throw new Exception("Password needs to be atleast 6 characters");
-    }
-
-    private void ValidateLogout(string username, int session_key)
-    {
-        if(!ContainsUsername(username)) throw new Exception("Username does not exist");
-        if(!CorrectSessionId(username, session_key)) throw new Exception("Incorrect session key");
     }
 
     private void ValidateLogin(string username, string password)
