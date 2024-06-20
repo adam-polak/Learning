@@ -13,9 +13,13 @@ UserController userController = new UserController();
 ShiftController shiftController = new ShiftController();
 string username = "testUser";
 string password = "testing";
-userController.CreateUser(username, password);
+Console.WriteLine(userController.CreateUser(username, password));
 int key = userController.Login(username, password);
-shiftController.StartShift(username, key);
-shiftController.EndShift(username, key);
+//stress test
+for(int i = 0; i < 10; i++) 
+{
+    shiftController.StartShift(username, key);
+    shiftController.EndShift(username, key);
+}
 shiftController.ViewShifts(username, key);
 userController.Logout(username, key);

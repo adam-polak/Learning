@@ -58,7 +58,6 @@ public class ShiftController : ControllerBase
                 writer.WriteValue(shift.End_Time);
                 writer.WriteEndObject();
             }
-            Console.WriteLine(sb.ToString());
             return Ok(sb.ToString());
         } catch(Exception e) {
             return BadRequest(e.Message);
