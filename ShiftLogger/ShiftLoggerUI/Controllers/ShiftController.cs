@@ -37,8 +37,7 @@ public class ShiftController
         List<Shift> shifts = new List<Shift>();
         if(rawResult == null || rawResult.Length == 0) return shifts;
         Shift? addShift;
-        int loop = 0;
-        while(rawResult.Length > 0 && loop < 3) 
+        while(rawResult.Length > 0) 
         {
             string[] arr = GetJsonObject(rawResult);
             string jsonObject = arr[0];
