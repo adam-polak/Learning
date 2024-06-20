@@ -1,6 +1,6 @@
 namespace ShiftLoggerAPI.DataAccess;
 
-class Shift
+public class Shift
 {
     public required string Username { get; set; }
     public int Id { get; set; }

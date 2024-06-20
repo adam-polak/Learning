@@ -31,7 +31,7 @@ public class UserController : ControllerBase
     {
         try {
             int key = userTable.LoginToUser(username, password);
-            return Ok($"Logged in to user: {username} \n\tthe session key is: {key}");
+            return Ok($"Logged in to user: {username} \nSession key is: {key}");
         } catch(Exception e) {
             return BadRequest(e.Message);
         }

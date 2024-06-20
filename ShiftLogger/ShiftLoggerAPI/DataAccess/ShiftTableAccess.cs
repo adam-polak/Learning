@@ -47,6 +47,12 @@ public class ShiftTableAccess
         return last.End_Time;
     }
 
+    public List<Shift> ViewShifts(string username, int key)
+    {
+        userTable.ValidateUsernameAndSessionKey(username, key);
+        return (List<Shift>)connection.Query<Shift>($"SELECT * FROM shift_table WHERE username='{username}';");
+    }
+
     private bool IsLastEnded(string username)
     {
         List<Shift> shifts = (List<Shift>)connection.Query<Shift>($"SELECT * FROM shift_table WHERE username='{username}';");
