@@ -36,7 +36,6 @@ public class ShiftController
         string? rawResult = response.Result.Content;
         List<Shift> shifts = new List<Shift>();
         if(rawResult == null || rawResult.Length == 0) return shifts;
-        Console.WriteLine(rawResult);
         Shift? addShift;
         int loop = 0;
         while(rawResult.Length > 0 && loop < 3) 
@@ -47,7 +46,6 @@ public class ShiftController
             addShift = JsonConvert.DeserializeObject<Shift>(jsonObject);
             if(addShift != null) shifts.Add(addShift);
         }
-        foreach(Shift shift in shifts) Console.WriteLine(shift.Id);
         return shifts;
     }
 
