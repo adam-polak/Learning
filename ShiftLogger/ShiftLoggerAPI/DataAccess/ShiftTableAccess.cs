@@ -1,5 +1,6 @@
 using Npgsql;
 using Dapper;
+using ShiftLoggerAPI.DataAccess.Models;
 
 namespace ShiftLoggerAPI.DataAccess;
 

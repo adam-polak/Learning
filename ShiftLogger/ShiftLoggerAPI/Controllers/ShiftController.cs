@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ShiftLoggerAPI.DataAccess;
+using ShiftLoggerAPI.DataAccess.Models;
 
 namespace ShiftLoggerAPI.Controller;
 
