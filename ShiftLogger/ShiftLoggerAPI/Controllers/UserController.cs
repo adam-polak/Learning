@@ -55,11 +55,10 @@ public class UserController : ControllerBase
         try {
             userTable.ValidateUsernameAndSessionKey(username, key);
             result = $"Logged in as {username} with session key: {key}";
+            return Ok(result);
         } catch(Exception e) {
-            if(e.Message.Equals("Incorrect session key")) result = $"User: {username} is not logged in";
-            else return BadRequest(e.Message);
+            return BadRequest(e.Message);
         }
-        return Ok(result);
     }
 
 }

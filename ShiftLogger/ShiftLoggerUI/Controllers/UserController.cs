@@ -38,7 +38,9 @@ public class UserController
 
     public bool IsCorrectLogin(string username, int key)
     {
-        return false;
+        RestRequest request = new RestRequest($"/loggedin/{username}/{key}", Method.Get);
+        var response = client.ExecuteAsync(request);
+        return response.Result.StatusCode == System.Net.HttpStatusCode.OK;
     }
 
     private int GetKey(string? str)
