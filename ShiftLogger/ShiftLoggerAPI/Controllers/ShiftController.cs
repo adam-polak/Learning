@@ -47,16 +47,18 @@ public class ShiftController : ControllerBase
             List<Shift> shifts = shiftTable.ViewShifts(username, key);
             StringBuilder sb = new StringBuilder();
             JsonWriter writer = new JsonTextWriter(new StringWriter(sb));
-            writer.WriteStartObject();
             foreach(Shift shift in shifts)
             {
-                writer.WritePropertyName($"{shift.Id}");
-                writer.WriteStartArray();
+                writer.WriteStartObject();
+                writer.WritePropertyName("Id");
+                writer.WriteValue(shift.Id);
+                writer.WritePropertyName("Start_Time");
                 writer.WriteValue(shift.Start_Time);
+                writer.WritePropertyName("End_Time");
                 writer.WriteValue(shift.End_Time);
-                writer.WriteEndArray();
+                writer.WriteEndObject();
             }
-            writer.WriteEndObject();
+            Console.WriteLine(sb.ToString());
             return Ok(sb.ToString());
         } catch(Exception e) {
             return BadRequest(e.Message);

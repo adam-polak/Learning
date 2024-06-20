@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using RestSharp;
 using ShiftLoggerUI.Models;
 
@@ -15,16 +16,66 @@ public class ShiftController
 
     public string StartShift(string username, int key)
     {
-        return "";
+        RestRequest request = new RestRequest($"/start_shift/{username}/{key}", Method.Post);
+        var response = client.ExecuteAsync(request);
+        return response.Result.Content ?? "";
     }
 
     public string EndShift(string username, int key)
     {
-        return "";
+        RestRequest request = new RestRequest($"/end_shift/{username}/{key}", Method.Put);
+        var response = client.ExecuteAsync(request);
+        return response.Result.Content ?? "";
     }
 
     public List<Shift> ViewShifts(string username, int key)
     {
-        return new List<Shift>();
+        RestRequest request = new RestRequest($"/view_shifts/{username}/{key}", Method.Get);
+        var response = client.ExecuteAsync(request);
+        if(response.Result.StatusCode != System.Net.HttpStatusCode.OK) return new List<Shift>();
+        string? rawResult = response.Result.Content;
+        List<Shift> shifts = new List<Shift>();
+        if(rawResult == null || rawResult.Length == 0) return shifts;
+        Console.WriteLine(rawResult);
+        Shift? addShift;
+        int loop = 0;
+        while(rawResult.Length > 0 && loop < 3) 
+        {
+            string[] arr = GetJsonObject(rawResult);
+            string jsonObject = arr[0];
+            rawResult = arr[1];
+            addShift = JsonConvert.DeserializeObject<Shift>(jsonObject);
+            if(addShift != null) shifts.Add(addShift);
+        }
+        foreach(Shift shift in shifts) Console.WriteLine(shift.Id);
+        return shifts;
     }
+
+    private string[] GetJsonObject(string str)
+    {
+        string ans = "";
+        char[] arr = str.ToCharArray();
+        for(int i = 0; i < arr.Length; i++)
+        {
+            if(arr[i] == '\\') continue;
+            ans += arr[i];
+            if(arr[i] == '}') 
+            {
+                str = Substring(arr, i + 1);
+                break;
+            }
+        }
+        if(ans.ElementAt(0) == '"') ans = ans.Substring(1, ans.Length - 1);
+        return [ans, str];
+    }
+
+    private string Substring(char[] arr, int start)
+    {
+        string ans = "";
+        while(start < arr.Length) ans += arr[start++];
+        if(ans.Length == 1) ans = "";
+        return ans;
+    }
+
+
 }

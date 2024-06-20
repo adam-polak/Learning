@@ -25,7 +25,6 @@ public class UserController
         var response = client.ExecuteAsync(request);
         if(response.Result.StatusCode != System.Net.HttpStatusCode.OK) return -1;
         string? rawResult = response.Result.Content;
-        Console.WriteLine(rawResult);
         return GetKey(rawResult);
     }
 
