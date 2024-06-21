@@ -1,7 +1,6 @@
 using Newtonsoft.Json;
 using RestSharp;
 using ShiftLoggerUI.Models;
-using Spectre.Console;
 
 namespace ShiftLoggerUI.Controllers;
 
@@ -20,7 +19,6 @@ public class ShiftController
         RestRequest request = new RestRequest($"/start_shift/{username}/{key}", Method.Post);
         var response = client.ExecuteAsync(request);
         string result = response.Result.Content ?? "";
-        Console.WriteLine(result.Substring(0, 8));
         if(result.Substring(0, 8).Equals("\"Started")) result = FixDateInResponse(result);
         return result;
     }
@@ -30,7 +28,6 @@ public class ShiftController
         RestRequest request = new RestRequest($"/end_shift/{username}/{key}", Method.Put);
         var response = client.ExecuteAsync(request);
         string result = response.Result.Content ?? "";
-        Console.WriteLine(result.Substring(0, 6));
         if(result.Substring(0, 6).Equals("\"Ended")) result = FixDateInResponse(result);
         return result;
     }
