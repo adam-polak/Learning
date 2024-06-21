@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using ShiftLoggerUI.Controllers;
 using ShiftLoggerUI.Models;
 using Spectre.Console;
