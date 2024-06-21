@@ -23,7 +23,11 @@ public class Driver
     public void LoginScreen()
     {
         Console.Clear();
-        if(loggedIn) UserScreen();
+        if(loggedIn) 
+        {
+            UserScreen();
+            return;
+        }
         string choice = PrintOptions("What would you like to do?", ["Login", "Create User", "--Quit--"]);
         if(choice.Equals("--Quit--")) return;
         else if(choice.Equals("Login")) Login();
@@ -32,6 +36,7 @@ public class Driver
 
     private void UserScreen()
     {
+        Console.Clear();
         string choice = PrintOptions("What would you like to do?", ["View Shift History", "Start Shift", "End Shift", "Logout"]);
         Console.Clear();
         switch(choice)
@@ -76,7 +81,7 @@ public class Driver
             loggedIn = key != -1;
             if(!loggedIn)
             {
-                exit = PrintOptions("Incorrect Login\nWould you like to exit?", ["Yes", "No"]);
+                exit = PrintOptions("\nWould you like to exit?", ["Yes", "No"]);
                 if(exit.Equals("Yes")) break;
             }
         }
@@ -90,7 +95,6 @@ public class Driver
 
     private void PrintShifts(List<Shift> shifts)
     {
-        Console.Clear();
         Table table = new Table();
         table.Title($"Shifts for {username}");
         table.AddColumn("Shift #");
@@ -140,7 +144,6 @@ public class Driver
 
     private string PrintOptions(string title, List<string> commands)
     {
-        Console.Clear();
         string? select = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
             .Title(title)

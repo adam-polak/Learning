@@ -23,7 +23,11 @@ public class UserController
     {
         RestRequest request = new RestRequest($"/login/{username}/{password}", Method.Put);
         var response = client.ExecuteAsync(request);
-        if(response.Result.StatusCode != System.Net.HttpStatusCode.OK) return -1;
+        if(response.Result.StatusCode != System.Net.HttpStatusCode.OK) 
+        {
+            Console.WriteLine(response.Result.Content);
+            return -1;
+        }
         string? rawResult = response.Result.Content;
         return GetKey(rawResult);
     }
