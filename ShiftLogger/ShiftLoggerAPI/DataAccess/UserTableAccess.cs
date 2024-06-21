@@ -19,6 +19,15 @@ public class UserTableAccess
         if(connection.State != System.Data.ConnectionState.Open) connection.Open();
     }
 
+    public static void LogoutOfAllUsers()
+    {
+        NpgsqlConnection tmpConnection = new NpgsqlConnection(DataAccess.ConnectionString);
+        tmpConnection.Open();
+        NpgsqlCommand cmd = new NpgsqlCommand("UPDATE user_table SET logged_in='false' WHERE NOT logged_in='false';", tmpConnection);
+        cmd.ExecuteNonQuery();
+        tmpConnection.Close();
+    }
+
     public void CreateUser(string username, string password)
     {
         ValidateCreateUser(username, password);

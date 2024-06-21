@@ -35,13 +35,14 @@ public class ShiftController
         if(response.Result.StatusCode != System.Net.HttpStatusCode.OK) return new List<Shift>();
         string? rawResult = response.Result.Content;
         List<Shift> shifts = new List<Shift>();
-        if(rawResult == null || rawResult.Length == 0) return shifts;
+        if(rawResult == null || rawResult.Length  <= 2) return shifts;
         Shift? addShift;
         while(rawResult.Length > 0) 
         {
             string[] arr = GetJsonObject(rawResult);
             string jsonObject = arr[0];
             rawResult = arr[1];
+            Console.WriteLine(jsonObject);
             addShift = JsonConvert.DeserializeObject<Shift>(jsonObject);
             if(addShift != null) shifts.Add(addShift);
         }
