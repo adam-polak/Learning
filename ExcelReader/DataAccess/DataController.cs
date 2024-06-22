@@ -1,4 +1,5 @@
 using ExcelReader.DataAccess.Models;
+using ExcelReader.ExcelAccess.Models;
 using Npgsql;
 using Dapper;
 
@@ -19,6 +20,39 @@ public class DataController
         ConnectToDatabase();
         if(!ContainsTable()) CreateTable();
         connection.Close();
+    }
+
+    public List<Product> GetProducts()
+    {
+        connection.Open();
+        string queryString = $"SELECT name, SUM(units_sold), SUM(profit) FROM {table_name} "
+                            + "WHERE units_sold > 0 AND profit > 0 "
+                            + "GROUP BY name;";
+        List<Product> products = (List<Product>)connection.Query<Product>(queryString);
+        connection.Close();
+        return products;
+    }
+
+    public void InsertProducts(List<Product> products)
+    {
+        connection.Open();
+        ClearTable();
+        NpgsqlCommand cmd;
+        foreach(Product product in products)
+        {
+            cmd = new NpgsqlCommand($"INSERT INTO {table_name} (name, units_sold, profit) VALUES (@n, @u, @p);", connection);
+            cmd.Parameters.AddWithValue("n", product.Name);
+            cmd.Parameters.AddWithValue("u", product.Units_Sold);
+            cmd.Parameters.AddWithValue("p", product.Profit);
+            cmd.ExecuteNonQuery();
+        }
+        connection.Close();
+    }
+
+    private void ClearTable()
+    {
+        NpgsqlCommand cmd = new NpgsqlCommand($"DELETE FROM {table_name};", connection);
+        cmd.ExecuteNonQuery();
     }
 
     private void ConnectToDatabase()
