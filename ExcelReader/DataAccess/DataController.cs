@@ -84,7 +84,7 @@ public class DataController
 
     private bool ContainsTable()
     {
-        List<TableName> list = (List<TableName>)connection.Query<TableName>("SELECT table_name FROM habitdb.INFORMATION_SCHEMA.TABLES WHERE table_type='BASE TABLE';");
+        List<TableName> list = (List<TableName>)connection.Query<TableName>($"SELECT table_name FROM {database_name}.INFORMATION_SCHEMA.TABLES WHERE table_type='BASE TABLE';");
         foreach(TableName x in list) {
             if(table_name.Equals(x.Table_Name)) return true;
         }
