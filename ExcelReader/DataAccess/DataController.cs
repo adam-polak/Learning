@@ -15,8 +15,10 @@ public class DataController
     public DataController()
     {
         connection = new NpgsqlConnection(ConnectionString);
+        connection.Open();
         ConnectToDatabase();
         if(!ContainsTable()) CreateTable();
+        connection.Close();
     }
 
     private void ConnectToDatabase()
