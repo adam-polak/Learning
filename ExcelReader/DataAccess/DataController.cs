@@ -15,6 +15,7 @@ public class DataController
 
     public DataController()
     {
+        Console.WriteLine("Creating database conneciton");
         connection = new NpgsqlConnection(ConnectionString);
         connection.Open();
         ConnectToDatabase();
@@ -24,17 +25,36 @@ public class DataController
 
     public List<Product> GetProducts()
     {
+        Console.WriteLine("Getting products from database");
         connection.Open();
-        string queryString = $"SELECT name, SUM(units_sold), SUM(profit) FROM {table_name} "
-                            + "WHERE units_sold > 0 AND profit > 0 "
-                            + "GROUP BY name;";
+        string queryString = $"SELECT * FROM {table_name} "
+                            + "WHERE units_sold > 0 AND profit > 0";
         List<Product> products = (List<Product>)connection.Query<Product>(queryString);
         connection.Close();
-        return products;
+        return GroupProducts(products);
+    }
+
+    private List<Product> GroupProducts(List<Product> list)
+    {
+        Console.WriteLine("Grouping profit of products");
+        Dictionary<string, Product> dict = new Dictionary<string, Product>();
+        foreach(Product product in list)
+        {
+            if(dict.ContainsKey(product.Name))
+            {
+                Product? x = dict.GetValueOrDefault(product.Name) ?? new Product() { Name = product.Name, Units_Sold = 0, Profit = 0.0 };
+                x.Units_Sold += product.Units_Sold;
+                x.Profit += product.Profit;
+                dict.Remove(x.Name);
+                dict.Add(x.Name, x);
+            } else dict.Add(product.Name, product);
+        }
+        return dict.Values.ToList();
     }
 
     public void InsertProducts(List<Product> products)
     {
+        Console.WriteLine("Inserting products into database");
         connection.Open();
         ClearTable();
         NpgsqlCommand cmd;
@@ -63,7 +83,7 @@ public class DataController
 
     private void CreateTable()
     {
-        NpgsqlCommand cmd = new NpgsqlCommand($"CREATE TABLE {table_name} (name TEXT, units_sold INTEGER, profit DOUBLE);", connection);
+        NpgsqlCommand cmd = new NpgsqlCommand($"CREATE TABLE {table_name} (name TEXT, units_sold INTEGER, profit DOUBLE PRECISION);", connection);
         cmd.ExecuteNonQuery();
     }
 

@@ -11,11 +11,13 @@ public class ExcelController
 
     public ExcelController()
     {
+        Console.WriteLine("Creating excel conneciton");
         package = new ExcelPackage(new FileInfo(FilePath));
     }
 
     public async Task<List<Product>> LoadExcelFile()
     {
+        Console.WriteLine("Loading excel data");
         List<Product> output = new List<Product>();
         await package.LoadAsync(FilePath);
         ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
@@ -34,7 +36,7 @@ public class ExcelController
             double profit = 0.0;
             try
             {
-                profit = Double.Parse(worksheet.Cells[row, columns[2]].ToString() ?? "");
+                profit = Double.Parse(worksheet.Cells[row, columns[2]].Value.ToString() ?? "");
             } catch(FormatException) {
                 profit = -1.0;
             }

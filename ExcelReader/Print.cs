@@ -7,6 +7,7 @@ public static class Print
 {
     public static void PrintTable(List<Product> products)
     {
+        Console.WriteLine("\n");
         Table table = new Table();
         table.Title("Products");
         table.AddColumn("Product");
@@ -14,6 +15,5 @@ public static class Print
         table.AddColumn("Profit");
         foreach(Product product in products) table.AddRow(product.Name, $"{product.Units_Sold}", $"{product.Profit}");
         AnsiConsole.Write(table);
-        Console.ReadLine();
     }
 }
