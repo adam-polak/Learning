@@ -8,7 +8,7 @@ namespace ExcelReader.DataAccess;
 public class DataController
 {
     private NpgsqlConnection connection;
-    private static string database_name = "financial_sample_excel";
+    private static string database_name = "sample_excel_db";
     private static string table_name = "product_table";
     private static string ConnectionString = "Host=localhost:5432;Username=postgres;Password=password;";
 
