@@ -19,43 +19,36 @@ public class WebController
         if(!DateTime.TryParse(date, out dateTime)) return null;
         HtmlDocument htmlDoc = web.Load(HtmlLink + EndOfLink(dateTime));
         List<Game> games = new List<Game>();
-        List<HtmlNodeCollection> nodeList = FindGamesDiv(htmlDoc.DocumentNode.SelectNodes("//div/table"));
-        foreach(HtmlNodeCollection nodes in nodeList) games.Add(MakeGame(nodes, date));
+        List<HtmlNode[]> nodePairList = FindGames(htmlDoc.DocumentNode.SelectNodes("//div/table/tbody/tr"));
+        foreach(HtmlNode[] nodes in nodePairList) games.Add(MakeGame(nodes, date));
         return games;
     }
 
-    private Game MakeGame(HtmlNodeCollection htmlNodes, string date)
+    private Game MakeGame(HtmlNode[] nodes, string date)
     {
-        string winner = "";
-        string loser = "";
-        int winner_score = 0;
-        int loser_score = 0;
-        foreach(HtmlNode node in htmlNodes)
-        {
-            if(node.HasClass("winner"))
-            {
-                foreach(HtmlNode child in node.ChildNodes)
-                {
-                    if(child.ChildNodes.Count == 1) winner = child.ChildNodes.First().InnerHtml;
-                    else Int32.TryParse(child.InnerHtml, out winner_score);
-                }
-            } else {
-                foreach(HtmlNode child in node.ChildNodes)
-                {
-                    if(child.ChildNodes.Count == 1) loser = child.ChildNodes.First().InnerHtml;
-                    else Int32.TryParse(child.InnerHtml, out loser_score);
-                }
-            }
-        }
+        HtmlNodeCollection winnerChildren = nodes[0].ChildNodes;
+        HtmlNodeCollection loserChildren = nodes[1].ChildNodes;
+        string winner = winnerChildren.ElementAt(1).ChildNodes.ElementAt(0).InnerHtml;
+        string loser = loserChildren.ElementAt(1).InnerText;
+        int winner_score = Int32.Parse(winnerChildren.ElementAt(3).InnerText);
+        int loser_score = Int32.Parse(loserChildren.ElementAt(3).InnerText);
         return new Game() { Date = date, Winner = winner, Loser = loser, Winner_Score = winner_score, Loser_Score = loser_score };
     }
 
-    private List<HtmlNodeCollection> FindGamesDiv(HtmlNodeCollection htmlNodes)
+    private List<HtmlNode[]> FindGames(HtmlNodeCollection htmlNodes)
     {
-        List<HtmlNodeCollection> list = new List<HtmlNodeCollection>();
+        List<HtmlNode[]> list = new List<HtmlNode[]>();
+        HtmlNode[]? pair = new HtmlNode[2];
         foreach(HtmlNode node in htmlNodes)
         {
-            if(node.HasClass("teams")) list.Add(node.ChildNodes);
+            if(node.HasClass("winner")) pair[0] = node;
+            else if(node.HasClass("loser")) pair[1] = node;
+
+            if(pair[0] != null && pair[1] != null)
+            {
+                list.Add(pair);
+                pair = new HtmlNode[2];
+            }
         }
         return list;
     }
