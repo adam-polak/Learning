@@ -2,9 +2,9 @@ using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Npgsql;
-using WaterLogger.Models;
+using WaterDrinkingLog.Models;
 
-namespace WaterLogger.Pages
+namespace WaterDrinkingLog.Pages
 {
     public class DeleteModel : PageModel
     {

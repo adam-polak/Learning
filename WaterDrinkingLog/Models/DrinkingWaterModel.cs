@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WaterLogger.Models
+namespace WaterDrinkingLog.Models
 {
 	public class DrinkingWaterModel
 	{

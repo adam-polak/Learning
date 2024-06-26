@@ -1,9 +1,9 @@
 using Dapper;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Npgsql;
-using WaterLogger.Models;
+using WaterDrinkingLog.Models;
 
-namespace WaterLogger.Pages;
+namespace WaterDrinkingLog.Pages;
 
 public class IndexModel : PageModel
 {
@@ -19,12 +19,17 @@ public class IndexModel : PageModel
     public void OnGet()
     {
         Records = GetAllRecords();
-        ViewData["Total"] = Records.AsEnumerable().Sum(x => x.Quantity);
     }
 
     private List<DrinkingWaterModel> GetAllRecords()
     {
-        return new List<DrinkingWaterModel>();
+        using(NpgsqlConnection connection = new NpgsqlConnection(_configuration.GetConnectionString("Default")))
+        {
+            connection.Open();
+            List<DrinkingWaterModel> list = (List<DrinkingWaterModel>)connection.Query<DrinkingWaterModel>("SELECT * FROM drinking_water;");
+            connection.Close();
+            return list;
+        }
     }
 }
 
