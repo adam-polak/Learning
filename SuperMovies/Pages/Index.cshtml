@@ -1,11 +1,15 @@
-﻿@page "{searchString?}"
+﻿@page
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
-<a button class="btn btn-success" asp-page="./Create">Add Movie</a>
+<div class="text-center">
+    <a button class="btn btn-success" asp-page="./Create">Add Movie</a>
+</div>
+
 <br>
+
 <div class="index-container">
     <form>
         <p>

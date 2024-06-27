@@ -25,7 +25,7 @@ public class IndexModel : PageModel
             DisplayItems = new List<string>();
             foreach(string item in items)
             {
-                if(SearchString.Equals(item)) DisplayItems.Add(item);
+                if(item.Contains(SearchString)) DisplayItems.Add(item);
             }
         } else DisplayItems = items;
     }
