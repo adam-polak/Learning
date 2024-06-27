@@ -7,6 +7,10 @@ public class IndexModel : PageModel
 {
     private IConfiguration _configuration;
     private readonly ILogger<IndexModel> _logger;
+    [BindProperty(SupportsGet = true)]
+    public string SearchString { get; set; }
+    public List<string> DisplayItems = [];
+    private List<string> items = [ "Hi", "Bye", "Hi" ];
 
     public IndexModel(ILogger<IndexModel> logger, IConfiguration configuration)
     {
@@ -16,6 +20,13 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-
+        if(!string.IsNullOrEmpty(SearchString))
+        {
+            DisplayItems = new List<string>();
+            foreach(string item in items)
+            {
+                if(SearchString.Equals(item)) DisplayItems.Add(item);
+            }
+        } else DisplayItems = items;
     }
 }

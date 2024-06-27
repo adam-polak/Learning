@@ -1,10 +1,20 @@
-﻿@page
+﻿@page "{searchString?}"
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
 <a button class="btn btn-success" asp-page="./Create">Add Movie</a>
-
+<br>
 <div class="index-container">
+    <form>
+        <p>
+            <input type="text" asp-for="SearchString" />
+            <input type="submit" value="Search" class="btn btn-info" />
+        </p>
+    </form>
+    @foreach(string item in @Model.DisplayItems)
+    {
+        <h1>@item</h1>
+    }
 </div>
