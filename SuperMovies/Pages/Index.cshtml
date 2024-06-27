@@ -5,6 +5,12 @@
     ViewData["Title"] = "Home page";
 }
 
+@if(Model.ErrorMessage != null)
+{
+    <h5 class="text-center text-danger">** @Model.ErrorMessage **</h5>
+    <br>
+}
+
 <div class="text-center">
     <a button class="btn btn-success" asp-page="./Create">Add Movie</a>
 </div>
