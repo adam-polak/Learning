@@ -1,0 +1,35 @@
+@page
+@using SuperMovies.Models
+@model CreateModel
+@{
+    
+}
+
+<h3 class="text-center">Add Movie</h3>
+
+<div class="container">
+    <form method="post">
+        <div class="row justify-content-md">
+            <label asp-for="AddMovie.Title" class="control-label"></label>
+            <input asp-for="AddMovie.Title" />
+            <span asp-validation-for="AddMovie.Title" class="text-danger"></span>
+
+            <br>
+
+            <label asp-for="AddMovie.Description" class="control-label"></label>
+            <input asp-for="AddMovie.Description" />
+            <span asp-validation-for="AddMovie.Description" class="text-danger"></span>
+
+            <br>
+
+            <label asp-for="AddMovie.Length_Minutes" class="control-label"></label>
+            <input asp-for="AddMovie.Length_Minutes" />
+            <span asp-validation-for="AddMovie.Length_Minutes" class="text-danger"></span>
+
+            <br>
+
+            <input type="submit" value="Add Movie" class="btn btn-success" />
+
+        </div>
+    </form>
+</div>

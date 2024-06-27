@@ -77,12 +77,5 @@ namespace WaterDrinkingLog.Pages
             return largestId;
         }
 
-
-
-
-
-
-
-
     }
 }
