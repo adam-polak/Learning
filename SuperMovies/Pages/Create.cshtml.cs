@@ -1,4 +1,3 @@
-using System.ComponentModel.Design;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
