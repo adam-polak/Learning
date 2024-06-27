@@ -9,7 +9,7 @@ namespace SuperMovies.Pages;
 public class DeleteModel : PageModel
 {
 
-    IConfiguration _configuration;
+    private IConfiguration _configuration;
 
     [BindProperty]
     public Movie DeleteMovie { get; set; }
