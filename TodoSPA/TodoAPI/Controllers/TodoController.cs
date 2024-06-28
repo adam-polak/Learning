@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TodoAPI.DataAccess;
 using TodoAPI.DataAccess.Models;
-using Newtonsoft;
 using System.Text;
 using Newtonsoft.Json;
 
