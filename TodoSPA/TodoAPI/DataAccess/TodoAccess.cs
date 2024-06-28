@@ -6,6 +6,7 @@ namespace TodoAPI.DataAccess;
 
 public class TodoAccess
 {
+
     public void AddTodo(Todo todo)
     {
         using(NpgsqlConnection connection = new NpgsqlConnection(DataAccess.ConnectionString))
@@ -45,6 +46,17 @@ public class TodoAccess
             NpgsqlCommand cmd = new NpgsqlCommand($"DELETE FROM todo_table WHERE id={id};", connection);
             cmd.ExecuteNonQuery();
            connection.Close(); 
+        }
+    }
+
+    public List<Todo> GetTodos()
+    {
+        using(NpgsqlConnection connection = new NpgsqlConnection(DataAccess.ConnectionString))
+        {
+            connection.Open();
+            List<Todo> todos = (List<Todo>)connection.Query<Todo>("SELECT * FROM todo_table;");
+            connection.Close();
+            return todos;
         }
     }
 
