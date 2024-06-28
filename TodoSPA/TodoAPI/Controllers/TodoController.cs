@@ -14,14 +14,14 @@ public class TodoController : ControllerBase
         todoAccess = new TodoAccess();
     }
 
-    [HttpPost("add")]
-    public IActionResult AddTodo([FromBody] string description)
+    [HttpPost("add/{completed}")]
+    public IActionResult AddTodo(bool completed, [FromBody] string description)
     {
         return Ok();
     }
 
-    [HttpPut("update/{id}")]
-    public IActionResult UpdateTodo(int id, [FromBody] string description)
+    [HttpPut("update/{id}/{completed}")]
+    public IActionResult UpdateTodo(int id, bool completed, [FromBody] string description)
     {
         return Ok();
     }
