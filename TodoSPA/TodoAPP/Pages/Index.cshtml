@@ -4,28 +4,30 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">TodoAPP</h1>
-</div>
-
 <table class="table">
 
-    <th>Completed</th>
-    <th>Description</th>
+    <th></th>
+    <th><h2>Todo</h2></th>
 
     @foreach(Todo todo in Model.Todos)
     {
         <tr>
-            @if(todo.Completed)
-            {
-                <td>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
-                </td>
-            } else {
-                <td>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>  
-                </td>
-            }
+            <form asp-page-handler="button" method="post">
+                @if(todo.Completed)
+                {
+                    <td>
+                        <button class="btn btn-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                        </button>
+                    </td>
+                } else {
+                    <td>
+                        <button class="btn btn-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>  
+                        </button>
+                    </td>
+                }
+            </form>
             <td>@todo.Description</td>
         </tr>
     }

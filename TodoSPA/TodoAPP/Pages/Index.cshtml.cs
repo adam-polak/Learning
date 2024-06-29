@@ -25,6 +25,11 @@ public class IndexModel : PageModel
         Todos = GetTodos();
     }
 
+    public void OnPost(int id)
+    {
+        
+    }
+
     private List<Todo> GetTodos()
     {
         RestRequest request = new RestRequest($"/todos", Method.Get);
