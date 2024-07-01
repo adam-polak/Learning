@@ -2,17 +2,22 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    string description = "";
 }
 
 <table class="table">
 
     <th></th>
     <th><h2>Todo</h2></th>
+    <th></th>
 
     @foreach(Todo todo in Model.Todos)
     {
         <tr>
-            <form asp-page-handler="button" method="post">
+            <form asp-page-handler="completed" method="post">
+                <input type="hidden" name="id" value="@todo.Id" />
+                <input type="hidden" name="description" value="@todo.Description" />
+                <input type="hidden" name="completed" value="@todo.Completed.ToString()" />
                 @if(todo.Completed)
                 {
                     <td>
@@ -28,7 +33,33 @@
                     </td>
                 }
             </form>
-            <td>@todo.Description</td>
+
+            <form asp-page-handler="description" method="post">
+                <input type="hidden" name="id" value="@todo.Id" />
+                <input type="hidden" name="completed" value="@todo.Completed.ToString()" />
+                <td><input name="description" value="@todo.Description" /></td>
+            </form>
+
+            <form asp-page-handler="delete" method="post">
+                <input type="hidden" name="id" value="@todo.Id" />
+                <td>
+                    <button class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                    </button>
+                </td>
+            </form>
         </tr>
     }
+    <tr>
+        <form asp-page-handler="add" method="post">
+            <td>
+                <button class="btn btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3zM12 8v8m-4-4h8"/></svg>
+                </button>
+            </td>
+            <td>
+                <input style="color:rgba(112, 83, 124, 0.654);" name="description" value="" />
+            </td>
+        </form>
+    </tr>
 </table>

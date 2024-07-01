@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using RestSharp;
 using Newtonsoft.Json;
 using TodoAPP.Models;
+using System.Net;
+using System.Reflection.Metadata.Ecma335;
 
 namespace TodoAPP.Pages;
 
@@ -18,21 +20,59 @@ public class IndexModel : PageModel
         _logger = logger;
         _configuration = configuration;
         client = new RestClient(_configuration.GetConnectionString("TodoAPI") ?? "");
+        Todos = GetTodos();
     }
 
     public void OnGet()
     {
-        Todos = GetTodos();
+
     }
 
-    public void OnPost(int id)
+    public IActionResult OnPostCompleted(int id, bool completed, string description)
     {
-        
+        UpdateTodo(id, !completed, description);
+        return Page();
+    }
+
+    public IActionResult OnPostDescription(int id, bool completed, string description)
+    {
+        UpdateTodo(id, completed, description);
+        return Page();
+    }
+
+    private void UpdateTodo(int id, bool completed, string description)
+    {
+        using(HttpClient httpClient = new HttpClient())
+        {
+            httpClient.BaseAddress = new Uri(_configuration.GetConnectionString("TodoAPI") ?? "");
+            var response = httpClient.PutAsJsonAsync($"update/{id}/{completed}", description);
+            if(response.Result.StatusCode == HttpStatusCode.OK) Todos = GetTodos();
+        }
+    }
+
+    public IActionResult OnPostDelete(int id)
+    {
+        RestRequest request = new RestRequest($"delete/{id}", Method.Delete);
+        var response = client.ExecuteAsync(request);
+        if(response.Result.StatusCode == HttpStatusCode.OK) Todos = GetTodos();
+        return Page();
+    }
+
+    public IActionResult OnPostAdd(string description)
+    {
+        using(HttpClient httpClient = new HttpClient())
+        {
+            httpClient.BaseAddress = new Uri(_configuration.GetConnectionString("TodoAPI") ?? "");
+            var response = httpClient.PostAsJsonAsync("add/false", description);
+            if(response.Result.StatusCode == HttpStatusCode.OK) Todos = GetTodos();
+            else Console.WriteLine(response.Result.StatusCode);
+        }
+        return Page();
     }
 
     private List<Todo> GetTodos()
     {
-        RestRequest request = new RestRequest($"/todos", Method.Get);
+        RestRequest request = new RestRequest("todos", Method.Get);
         var response = client.ExecuteAsync(request);
         if(response.Result.StatusCode != System.Net.HttpStatusCode.OK) return new List<Todo>();
         string? rawResult = response.Result.Content;
@@ -50,6 +90,12 @@ public class IndexModel : PageModel
                 Todos.Add(addTodo);
             }
         }
+        Todos.Sort(delegate(Todo x, Todo y)
+        {
+            if(x.Id == y.Id) return 0;
+            else if(x.Id < y.Id) return -1;
+            else return 1;
+        });
         return Todos;
     }
 
